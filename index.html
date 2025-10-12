@@ -584,6 +584,69 @@ button:disabled {
   transform: rotate(180deg);
 }
 
+/* ---------- ENHANCED STEP 11 SUMMARY STYLES ---------- */
+.summary-container {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.summary-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.summary-container::-webkit-scrollbar-track {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.summary-container::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.summary-section {
+  margin-bottom: 25px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(0, 74, 173, 0.03);
+}
+
+.summary-label {
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.summary-value {
+  color: var(--text);
+  word-break: break-word;
+}
+
+.pricing-summary .low-margin,
+.pricing-summary .medium-margin, 
+.pricing-summary .high-margin {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 900px) {
   .calc-grid { grid-template-columns: 1fr; }
@@ -629,6 +692,18 @@ button:disabled {
     left: 10px;
     right: 10px;
     max-width: none;
+  }
+  
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pricing-summary .pricing-card {
+    padding: 10px !important;
+  }
+  
+  .pricing-summary .pricing-card div {
+    font-size: 1.2rem !important;
   }
 }
 
@@ -2452,7 +2527,7 @@ class CleaningEstimator {
     this.showToast('PDF quote generated successfully!', 'success');
   }
 
-  // ========== COMPLETE SUMMARY WITH FREQUENCY GROUPING ==========
+  // ========== ENHANCED STEP 11 SUMMARY ==========
   generateSummary() {
     // Basic form data
     const groups = {
@@ -2465,28 +2540,40 @@ class CleaningEstimator {
       "Estimator": ["cleaningType","crewSize","setupTime","productivity","cleanFrequency","hourlyRate","overhead","profit","salesTax"]
     };
     
-    let html = "";
+    let html = "<div class='summary-container'>";
+    
+    // Add enhanced pricing summary at the top
+    html += this.generateEnhancedPricingSummary();
     
     // Add basic form data
     for (const g in groups) {
-      html += `<h3 style='color:#004AAD;'>${g}</h3>`;
+      html += `<div class="summary-section">
+                <h3 style='color:#004AAD;border-bottom:2px solid var(--accent);padding-bottom:8px;'>${g}</h3>
+                <div class="summary-grid">`;
       let hasContent = false;
       
       groups[g].forEach(id => {
         const el = document.getElementById(id);
         if (el && el.value) {
-          html += `<p><strong>${this.formatFieldName(id)}:</strong> ${el.value}</p>`;
+          html += `<div class="summary-item">
+                    <span class="summary-label">${this.formatFieldName(id)}:</span>
+                    <span class="summary-value">${el.value}</span>
+                  </div>`;
           hasContent = true;
         }
       });
       
       if (!hasContent) {
-        html += `<p><em>No information provided</em></p>`;
+        html += `<p style='color:#6B7280;font-style:italic;'>No information provided</p>`;
       }
+      
+      html += `</div></div>`;
     }
     
-    // Add inspection notes
-    html += `<h3 style='color:#004AAD;'>Inspection Notes</h3>`;
+    // Add inspection notes with improved styling
+    html += `<div class="summary-section">
+              <h3 style='color:#004AAD;border-bottom:2px solid var(--accent);padding-bottom:8px;'>Inspection Notes</h3>
+              <div class="summary-grid">`;
     const inspectionNotes = ["frontDeskNotes","officeNotes","classroomNotes","stairwellNotes","bathroomNotes"];
     let hasInspectionNotes = false;
     
@@ -2494,18 +2581,24 @@ class CleaningEstimator {
       const el = document.getElementById(id);
       if (el && el.value) {
         const areaName = this.formatFieldName(id.replace('Notes', ''));
-        html += `<p><strong>${areaName}:</strong> ${el.value}</p>`;
+        html += `<div class="summary-item">
+                  <span class="summary-label">${areaName}:</span>
+                  <span class="summary-value">${el.value}</span>
+                </div>`;
         hasInspectionNotes = true;
       }
     });
     
     if (!hasInspectionNotes) {
-      html += `<p><em>No inspection notes provided</em></p>`;
+      html += `<p style='color:#6B7280;font-style:italic;'>No inspection notes provided</p>`;
     }
+    html += `</div></div>`;
     
-    // Add frequency-grouped tasks (from original script)
+    // Add frequency-grouped tasks
     html += this.generateFrequencyGroupedTasks();
     
+    html += "</div>"; // Close summary-container
+
     const summaryContent = document.getElementById("summaryContent");
     if (summaryContent) {
       summaryContent.innerHTML = html;
@@ -2515,12 +2608,166 @@ class CleaningEstimator {
     }
   }
 
+  // NEW: Enhanced pricing summary with detailed breakdown
+  generateEnhancedPricingSummary() {
+    const sqft = document.getElementById("squareFootage")?.value || "0";
+    const totalAfterTax = document.getElementById("totalAfterTax")?.textContent || "$0.00";
+    const totalBeforeTax = document.getElementById("totalBeforeTax")?.textContent || "$0.00";
+    const laborCost = document.getElementById("laborCost")?.textContent || "$0.00";
+    const overheadCost = document.getElementById("overheadCost")?.textContent || "$0.00";
+    const profitAmount = document.getElementById("profitAmount")?.textContent || "$0.00";
+    const salesTaxAmount = document.getElementById("salesTaxAmount")?.textContent || "$0.00";
+    const totalCleaningHours = document.getElementById("totalCleaningHours")?.textContent || "0";
+    const perCleanerHours = document.getElementById("perCleanerHours")?.textContent || "0";
+    const rateValue = document.getElementById("rateValue")?.textContent || "$0.00";
+    const rateLabel = document.getElementById("rateLabel")?.textContent || "Standard Cleaning";
+    const profitMarginValue = document.getElementById("profitMarginValue")?.textContent || "0%";
+    const revenuePerHour = document.getElementById("revenuePerHour")?.textContent || "$0.00";
+    
+    // Get add-on services summary
+    const addonServices = this.getAddonServicesSummary();
+    
+    // Determine profit margin color class
+    const marginClass = this.getMarginClass(profitMarginValue);
+
+    return `
+      <div class="pricing-summary" style="background: linear-gradient(135deg, #004AAD, #00C2FF); color: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <h2 style="color: white; margin-top: 0; text-align: center; font-size: 1.5rem;">
+          <i class="fa fa-chart-line"></i> Estimated Cleaning Time & Pricing Summary
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+          <div class="pricing-card" style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 0.9rem; opacity: 0.9;">Total Area</div>
+            <div style="font-size: 1.4rem; font-weight: 600;">${sqft} sq ft</div>
+          </div>
+          <div class="pricing-card" style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 0.9rem; opacity: 0.9;">Rate</div>
+            <div style="font-size: 1.4rem; font-weight: 600;">${rateValue}/sq ft</div>
+            <div style="font-size: 0.8rem; opacity: 0.9;">${rateLabel}</div>
+          </div>
+          <div class="pricing-card" style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 0.9rem; opacity: 0.9;">Total Hours</div>
+            <div style="font-size: 1.4rem; font-weight: 600;">${totalCleaningHours} hrs</div>
+            <div style="font-size: 0.8rem; opacity: 0.9;">${perCleanerHours} hrs/cleaner</div>
+          </div>
+          <div class="pricing-card" style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 0.9rem; opacity: 0.9;">Profit Margin</div>
+            <div style="font-size: 1.4rem; font-weight: 600;" class="${marginClass}">${profitMarginValue}</div>
+          </div>
+        </div>
+        
+        <div style="background: rgba(255,255,255,0.2); border-radius: 8px; padding: 15px; margin: 15px 0;">
+          <h3 style="color: white; margin-top: 0; font-size: 1.1rem;">
+            <i class="fa fa-receipt"></i> Cost Breakdown
+          </h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div style="display: flex; justify-content: space-between;">
+              <span>Labor Cost:</span>
+              <span>${laborCost}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>Overhead Cost:</span>
+              <span>${overheadCost}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>Profit Amount:</span>
+              <span>${profitAmount}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>Subtotal:</span>
+              <span>${totalBeforeTax}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span>Sales Tax:</span>
+              <span>${salesTaxAmount}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 8px; grid-column: 1 / -1;">
+              <span>Total (After Tax):</span>
+              <span>${totalAfterTax}</span>
+            </div>
+          </div>
+        </div>
+        
+        ${addonServices}
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">
+          <div>
+            <i class="fa fa-clock"></i> Revenue/Hour: ${revenuePerHour}
+          </div>
+          <div>
+            Generated on ${new Date().toLocaleDateString()}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // NEW: Get add-on services summary for pricing section
+  getAddonServicesSummary() {
+    const addons = [];
+    document.querySelectorAll('.task-with-frequency .addon').forEach(addon => {
+      if (addon.checked) {
+        const row = addon.closest('.task-with-frequency');
+        const dropdown = row.querySelector('.frequency-dropdown');
+        const label = row.querySelector('.task-checkbox').textContent.trim();
+        const rate = addon.dataset.rate || "0";
+        
+        addons.push({
+          name: label,
+          rate: parseFloat(rate).toFixed(2),
+          frequency: dropdown ? dropdown.value : 'Each Visit'
+        });
+      }
+    });
+    
+    if (addons.length === 0) {
+      return '';
+    }
+    
+    let html = `
+      <div style="background: rgba(255,255,255,0.2); border-radius: 8px; padding: 15px; margin: 15px 0;">
+        <h3 style="color: white; margin-top: 0; font-size: 1.1rem;">
+          <i class="fa fa-star"></i> Add-On Services
+        </h3>
+        <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+    `;
+    
+    addons.forEach(addon => {
+      html += `
+        <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <div>
+            <strong>${addon.name}</strong>
+            <div style="font-size: 0.8rem; opacity: 0.9;">Frequency: ${addon.frequency}</div>
+          </div>
+          <div style="font-weight: 600;">+ $${addon.rate}/sq ft</div>
+        </div>
+      `;
+    });
+    
+    html += `</div></div>`;
+    return html;
+  }
+
+  // NEW: Determine margin class for styling
+  getMarginClass(marginText) {
+    const margin = parseFloat(marginText);
+    if (margin < 20) return 'low-margin';
+    if (margin < 30) return 'medium-margin';
+    return 'high-margin';
+  }
+
+  // UPDATED: Format field name with better capitalization
   formatFieldName(fieldId) {
     return fieldId
       .replace(/([A-Z])/g, ' $1')
       .replace(/^./, str => str.toUpperCase())
       .replace('Num ', 'Number of ')
-      .replace('Avg ', 'Average ');
+      .replace('Avg ', 'Average ')
+      .replace('Req', 'Requirements')
+      .replace(/\bId\b/gi, 'ID')
+      .replace(/\bSq\b/gi, 'Square')
+      .replace(/\bFt\b/gi, 'Feet');
   }
 
   generateFrequencyGroupedTasks() {
@@ -2545,7 +2792,8 @@ class CleaningEstimator {
     });
     
     // Generate HTML for frequency groups
-    let html = `<h3 style='color:#004AAD;margin-top:20px;'>Cleaning Tasks by Frequency</h3>`;
+    let html = `<div class="summary-section">
+                  <h3 style='color:#004AAD;border-bottom:2px solid var(--accent);padding-bottom:8px;'>Cleaning Tasks by Frequency</h3>`;
     
     freqOptions.forEach((freq, idx) => {
       const tasks = freqGroups[freq];
@@ -2568,6 +2816,7 @@ class CleaningEstimator {
         </div>`;
     });
     
+    html += `</div>`;
     return html;
   }
 
