@@ -1,462 +1,2688 @@
-<!-- ============================================================
-A TO Z Cleaning Expert Ltd. — Walkthrough & Internal Assessment Tool (Pro v3)
-Patched for GitHub Pages (assessment) | Full Steps 1–5 | Logo + Layout Fixed
-=============================================================== -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A TO Z Cleaning Expert Ltd. — Walkthrough Tool (Pro v3)</title>
+<meta http-equiv="Cache-Control" content="no-store" />
+<title>A TO Z Cleaning Expert Ltd. — Walkthrough & Estimator Tool (v5.3 Complete)</title>
 
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-:root{
-  --primary:#0056D2;--accent:#00C2FF;
-  --background:#F9FAFB;--surface:#FFFFFF;
-  --text:#1E1E1E;--muted:#6B7280;--border:#E5E7EB;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{
-  font-family:'Poppins',sans-serif;
-  background:var(--background);color:var(--text);
-  display:flex;flex-direction:column;min-height:100vh;
+/* ============================================================
+   A TO Z CLEANING EXPERT LTD. — WALKTHROUGH & ESTIMATOR TOOL
+   Version: v5.3 Complete (All Features Restored)
+   ============================================================ */
+
+/* ---------- ROOT THEME ---------- */
+:root {
+  --primary: #004AAD;
+  --accent: #00C2FF;
+  --background: #F9FAFB;
+  --surface: #FFFFFF;
+  --text: #1E1E1E;
+  --border: #E5E7EB;
+  --success: #00A36C;
+  --warning: #E0A500;
+  --danger: #E63B3B;
+  --info: #3B82F6;
 }
 
-/* Header */
-header{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#fff;
-  padding:15px 25px;
-  border-bottom:1px solid var(--border);
-  box-shadow:0 2px 6px rgba(0,0,0,.05);
+body.dark {
+  --background: #1E1E2F;
+  --surface: #2B2B3C;
+  --text: #F3F4F6;
+  --border: #3C3C4A;
 }
-.header-left{
-  display:flex;
+
+/* ---------- GLOBAL STYLING ---------- */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--background);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0 0 10px;
+  font-weight: 600;
+  color: var(--primary);
+}
+p {
+  margin: 0 0 10px;
+  line-height: 1.6;
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- HEADER ---------- */
+header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap:15px;
+  padding: 15px 25px;
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
-header img{
-  height:60px;
-  object-fit:contain;
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.header-text h1{
-  margin:0;
-  font-size:1.3rem;
-  color:var(--primary);
-  font-weight:600;
-  line-height:1.2;
+.header-content img {
+  height: 55px;
+  width: auto;
 }
-.header-text p{
-  margin:2px 0 0;
-  color:var(--muted);
-  font-size:.9rem;
-  line-height:1.2;
+.header-text h1 {
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+.header-text p {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+#darkToggle {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+#darkToggle:hover {
+  background: var(--border);
 }
 
-/* Progress */
-#progressWrapper{margin:15px 10%;}
-#progressLabel{display:flex;justify-content:space-between;font-size:.9rem;color:var(--muted);margin-bottom:5px;}
-#progressContainer{background:#e5e7eb;border-radius:20px;height:10px;overflow:hidden;}
-#progressBar{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));width:0%;transition:width .3s ease;}
+/* ---------- MAIN FORM ---------- */
+main {
+  max-width: 1100px;
+  margin: 20px auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+section {
+  display: none;
+}
+section.active {
+  display: block;
+}
 
-main{flex:1;width:100%;padding:30px 10%;background:var(--surface);}
-section{display:none;}
-section.active{display:block;animation:fade .4s;}
-@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-label{display:block;margin:10px 0 5px;font-weight:500;}
-input,select,textarea{
-  width:100%;padding:9px 10px;border:1px solid var(--border);
-  border-radius:6px;background:#fff;font-size:.95rem;
+/* ---------- PROGRESS BAR ---------- */
+#progressText {
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--primary);
+  margin-bottom: 8px;
 }
-textarea{resize:vertical;}
-button{
-  background:var(--primary);color:#fff;border:none;border-radius:6px;
-  padding:10px 18px;font-size:.95rem;font-weight:500;cursor:pointer;
-  transition:.25s ease;box-shadow:0 2px 5px rgba(0,0,0,.1);
+#progressContainer {
+  background: #E5E7EB;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 25px;
+  height: 8px;
 }
-button:hover{background:#0042A2;}
-.nav-buttons{display:flex;justify-content:space-between;margin-top:30px;margin-bottom:40px;}
-.addon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:8px;}
-.addon-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:#fdfdfd;}
-.addon-item input{transform:scale(1.1);}
+#progressBar {
+  background: var(--accent);
+  height: 100%;
+  width: 0%;
+  transition: width 0.4s ease;
+}
 
-/* Footer */
-footer{
-  flex-shrink:0;text-align:center;font-size:.85rem;color:#fff;
-  background:linear-gradient(90deg,var(--primary),var(--accent));
-  padding:15px 0;margin-top:auto;box-shadow:0 -2px 6px rgba(0,0,0,.05);
+/* ---------- FORM INPUTS & VALIDATION ---------- */
+label {
+  display: block;
+  font-weight: 500;
+  margin: 10px 0 5px;
 }
-#saveToast{
-  position:fixed;top:15px;right:15px;background:var(--primary);color:#fff;
-  padding:8px 14px;border-radius:6px;font-size:.85rem;display:none;
-  box-shadow:0 2px 6px rgba(0,0,0,.2);
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+textarea { resize: vertical; }
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,194,255,0.15);
+}
+
+/* Validation States */
+.input-error {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(230,59,59,0.15) !important;
+}
+
+.input-success {
+  border-color: var(--success) !important;
+}
+
+.validation-message {
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.validation-error {
+  color: var(--danger);
+}
+
+.validation-success {
+  color: var(--success);
+}
+
+/* ---------- BUTTONS ---------- */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+}
+
+button:hover { 
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.nav-buttons button {
+  background: var(--primary);
+  color: #fff;
+}
+
+.reset-btn {
+  background: var(--danger);
+  color: #fff;
+}
+
+.secondary-btn {
+  background: #9CA3AF;
+  color: #fff;
+}
+
+.success-btn {
+  background: var(--success);
+  color: #fff;
+}
+
+/* ---------- TASK FREQUENCY DROPDOWNS ---------- */
+.task-with-frequency {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.task-with-frequency:hover {
+  background-color: rgba(0, 74, 173, 0.05);
+}
+
+.task-checkbox {
+  flex: 1;
+}
+
+.frequency-dropdown {
+  margin-left: 15px;
+  width: 150px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.85rem;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s ease;
+}
+
+.task-with-frequency.checked .frequency-dropdown {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---------- LOADING STATES ---------- */
+.loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ---------- TOAST NOTIFICATIONS ---------- */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  max-width: 400px;
+}
+
+.toast {
+  background: var(--surface);
+  border-left: 4px solid var(--primary);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast.success {
+  border-left-color: var(--success);
+}
+
+.toast.error {
+  border-left-color: var(--danger);
+}
+
+.toast.warning {
+  border-left-color: var(--warning);
+}
+
+.toast.info {
+  border-left-color: var(--info);
+}
+
+.toast-icon {
+  font-size: 1.2rem;
+}
+
+/* ---------- PHOTO GRID ---------- */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+.photo-grid img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.photo-grid img:hover {
+  transform: scale(1.05);
+}
+
+/* ---------- LIGHTBOX ---------- */
+#photoLightbox {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+#photoLightbox.active { display: flex; }
+#lightboxImg {
+  max-width: 90%;
+  max-height: 80%;
+  border-radius: 10px;
+}
+#lightboxPrev, #lightboxNext {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+#lightboxPrev:hover, #lightboxNext:hover {
+  background: rgba(0,0,0,0.8);
+}
+#lightboxPrev { left: 30px; }
+#lightboxNext { right: 30px; }
+#lightboxCaption {
+  position: absolute;
+  bottom: 30px;
+  color: #fff;
+  font-size: 0.95rem;
+  text-align: center;
+  background: rgba(0,0,0,0.7);
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+/* ---------- ESTIMATOR GRID ---------- */
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 25px;
+  align-items: flex-start;
+}
+.calc-inputs, .calc-results {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  background: var(--surface);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.calc-results {
+  position: sticky;
+  top: 90px;
+}
+
+/* ---------- PROFIT MARGIN COLOR STATES ---------- */
+.low-margin {
+  color: var(--danger);
+  font-weight: 600;
+}
+.medium-margin {
+  color: var(--warning);
+  font-weight: 600;
+}
+.high-margin {
+  color: var(--success);
+  font-weight: 600;
+}
+
+/* ---------- QUOTE MANAGEMENT ---------- */
+.quote-manager {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.quote-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.quote-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.quote-item:last-child {
+  border-bottom: none;
+}
+
+.quote-actions {
+  display: flex;
+  gap: 5px;
+}
+
+/* ---------- TEMPLATE SYSTEM ---------- */
+.template-system {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.template-card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.template-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.template-card.active {
+  border-color: var(--primary);
+  background: rgba(0,74,173,0.05);
+}
+
+/* ---------- FREQUENCY GROUPING IN SUMMARY ---------- */
+.freq-block {
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.freq-header {
+  background: linear-gradient(90deg, #004AAD, #00C2FF);
+  color: #fff;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.freq-content {
+  padding: 10px 16px;
+  background: var(--surface);
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.freq-block.expanded .freq-content {
+  max-height: 800px;
+  opacity: 1;
+}
+
+.toggle-icon {
+  transition: transform 0.3s;
+}
+
+.freq-block.expanded .toggle-icon {
+  transform: rotate(180deg);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .calc-grid { grid-template-columns: 1fr; }
+  .calc-results { position: static; margin-top: 20px; }
+  
+  .nav-buttons {
+    flex-direction: column;
+  }
+  
+  .nav-buttons button {
+    width: 100%;
+  }
+  
+  header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .header-content {
+    flex-direction: column;
+  }
+  
+  .task-with-frequency {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .frequency-dropdown {
+    margin-left: 0;
+    margin-top: 8px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    margin: 10px;
+    padding: 15px;
+  }
+  
+  .toast-container {
+    left: 10px;
+    right: 10px;
+    max-width: none;
+  }
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 20px;
+  margin-top: 40px;
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--primary); text-decoration: none; }
+
+/* ---------- GENERATE QUOTE BUTTON ---------- */
+#genQuote {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 10px;
+  width: 100%;
+  height: 34px;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+#genQuote:hover {
+  background: #00a9e5;
+}
+
+/* ---------- INPUT FORMATTING ---------- */
+.currency-input {
+  position: relative;
+}
+
+.currency-input::before {
+  content: '$';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text);
+}
+
+.currency-input input {
+  padding-left: 20px;
+}
+
+.phone-input {
+  font-family: monospace;
 }
 </style>
 </head>
-
 <body>
+<!-- Toast Notifications -->
+<div class="toast-container" id="toastContainer"></div>
+
 <header>
-  <div class="header-left">
-    <img src="a-to-z-logo.png" alt="A TO Z Cleaning Expert Logo">
+  <div class="header-content">
+    <img src="https://atozcleaningexpert.github.io/assessment/a-to-z-logo.png" alt="A TO Z Cleaning Expert Logo">
     <div class="header-text">
       <h1>A TO Z CLEANING EXPERT LTD.</h1>
-      <p>Comprehensive Walkthrough & Internal Assessment Tool</p>
+      <p>Comprehensive Walkthrough & Estimator Tool</p>
     </div>
   </div>
+  <button id="darkToggle" title="Toggle Dark Mode" aria-label="Toggle dark mode"><i class="fa fa-moon"></i></button>
 </header>
 
-<div id="progressWrapper">
-  <div id="progressLabel"><span id="progressTitle">Client Information</span><span id="progressText">Step 1 of 10</span></div>
-  <div id="progressContainer"><div id="progressBar"></div></div>
-</div>
-
-<div id="saveToast">Saved locally</div>
-
 <main>
-<form id="walkthroughForm">
-
-<!-- STEP 1 -->
-<section id="step1" class="active">
-  <h2><i class="fa fa-user-tie"></i> Client & Site Information</h2>
-  <label for="assessorName">Assessor Name</label><input type="text" id="assessorName" name="assessorName" required>
-  <label for="clientName">Client / Company Name</label><input type="text" id="clientName" name="clientName" required>
-  <label for="contactPerson">Contact Person</label><input type="text" id="contactPerson" name="contactPerson">
-  <label for="email">Email</label><input type="email" id="email" name="email">
-  <label for="phone">Phone</label><input type="text" id="phone" name="phone">
-  <label for="address">Site Address</label><textarea id="address" name="address" rows="2"></textarea>
-  <label for="facilityType">Type of Facility</label>
-  <select id="facilityType" name="facilityType">
-    <option value="">Select</option>
-    <option>Office</option>
-    <option>Retail</option>
-    <option>Medical</option>
-    <option>Industrial</option>
-    <option>School</option>
-    <option>Condominium</option>
-  </select>
-  <label for="hours">Hours of Operation</label>
-  <input type="text" id="hours" name="hours" placeholder="e.g. Mon–Fri 8 AM – 6 PM">
-  <div class="nav-buttons"><span></span><button type="button" id="next1">Next</button></div>
-</section>
-
-<!-- STEP 2 -->
-<section id="step2">
-  <h2><i class="fa fa-building"></i> Facility Overview</h2>
-  <label for="squareFootage">Total Square Footage</label><input type="number" id="squareFootage" name="squareFootage" placeholder="e.g. 10000" required>
-  <label for="floors">Number of Floors</label><input type="number" id="floors" name="floors">
-  <label>Flooring Types</label>
-  <div class="addon-grid">
-    <div class="addon-item"><input type="checkbox" name="flooring" value="Tile"><label>Tile</label></div>
-    <div class="addon-item"><input type="checkbox" name="flooring" value="Carpet"><label>Carpet</label></div>
-    <div class="addon-item"><input type="checkbox" name="flooring" value="Vinyl"><label>Vinyl</label></div>
-    <div class="addon-item"><input type="checkbox" name="flooring" value="Hardwood"><label>Hardwood</label></div>
-    <div class="addon-item"><input type="checkbox" name="flooring" value="Concrete"><label>Concrete</label></div>
-  </div>
-  <label for="frequency">Cleaning Frequency</label>
-  <select id="frequency" name="frequency">
-    <option value="">Select</option>
-    <option>Weekly (1×/week)</option>
-    <option>Twice a week</option>
-    <option>Three times a week</option>
-    <option>Five times a week</option>
-    <option>Daily</option>
-  </select>
-  <label for="provider">Current Cleaning Provider</label><input type="text" id="provider" name="provider">
-  <label for="painPoints">Main Pain Points / Concerns</label><textarea id="painPoints" name="painPoints" rows="2"></textarea>
-  <label for="startDate">Preferred Start Date</label><input type="date" id="startDate" name="startDate">
-  <div class="nav-buttons"><button type="button" id="prev2">Previous</button><button type="button" id="next2">Next</button></div>
-</section>
-
-<!-- STEP 3 -->
-<section id="step3">
-  <h2><i class="fa fa-clipboard-check"></i> Area-by-Area Inspection</h2>
-  <label>Offices / Work Areas</label><textarea name="officeNotes" rows="2"></textarea>
-  <label>Restrooms</label><textarea name="restroomNotes" rows="2"></textarea>
-  <label>Break Room / Kitchen</label><textarea name="kitchenNotes" rows="2"></textarea>
-  <label>Windows & Glass</label><textarea name="windowNotes" rows="2"></textarea>
-  <label>Floors & Carpets</label><textarea name="floorNotes" rows="2"></textarea>
-  <div class="nav-buttons"><button type="button" id="prev3">Previous</button><button type="button" id="next3">Next</button></div>
-</section>
-
-<!-- STEP 4 -->
-<section id="step4">
-  <h2><i class="fa fa-plus-circle"></i> Specialty & Add-On Services</h2>
-  <div class="addon-grid">
-    <div class="addon-item"><input type="checkbox" name="addons" value="Post-Construction Cleaning"><label>Post-Construction Cleaning</label></div>
-    <div class="addon-item"><input type="checkbox" name="addons" value="Floor Strip & Wax"><label>Floor Strip & Wax</label></div>
-    <div class="addon-item"><input type="checkbox" name="addons" value="Carpet Extraction"><label>Carpet Extraction</label></div>
-    <div class="addon-item"><input type="checkbox" name="addons" value="High Dusting / Vents"><label>High Dusting / Vents</label></div>
-    <div class="addon-item"><input type="checkbox" name="addons" value="Window Washing"><label>Window Washing</label></div>
-  </div>
-  <div class="nav-buttons"><button type="button" id="prev4">Previous</button><button type="button" id="next4">Next</button></div>
-</section>
-
-<!-- STEP 5 -->
-<section id="step5">
-  <h2><i class="fa fa-building-columns"></i> Facility Composition</h2>
-  <label for="numRestrooms">Number of Restrooms</label><input type="number" id="numRestrooms" name="numRestrooms">
-  <label for="numKitchens">Number of Kitchens / Break Areas</label><input type="number" id="numKitchens" name="numKitchens">
-  <label for="ceilingType">Type of Ceiling</label>
-  <select id="ceilingType" name="ceilingType"><option value="">Select</option><option>Drop Tile</option><option>Drywall</option><option>Open Industrial</option></select>
-  <label for="entrances">Number of Entrances</label><input type="number" id="entrances" name="entrances">
-  <label for="cleaningHours">Allowed Cleaning Hours</label>
-  <select id="cleaningHours" name="cleaningHours"><option value="">Select</option><option>Daytime</option><option>Evening</option><option>Nighttime</option></select>
-  <div class="nav-buttons"><button type="button" id="prev5">Previous</button><button type="button" id="next5">Next</button></div>
-</section>
-<!-- ============================================================
- PART 2 — STEPS 6–10 + SUMMARY + PDF + GMAIL
-=============================================================== -->
-
-<!-- STEP 6 -->
-<section id="step6">
-  <h2><i class="fa fa-users"></i> Occupancy & Usage</h2>
-  <label for="avgOccupancy">Average Daily Occupancy</label>
-  <input type="number" id="avgOccupancy" name="avgOccupancy">
-  <label for="peakHours">Peak Usage Hours</label>
-  <input type="text" id="peakHours" name="peakHours">
-  <label for="eventFrequency">Special Event Frequency</label>
-  <select id="eventFrequency" name="eventFrequency">
-    <option value="">Select</option>
-    <option>Rarely (less than once a month)</option>
-    <option>Monthly</option><option>Weekly</option><option>Daily</option>
-  </select>
-  <div class="nav-buttons">
-    <button type="button" id="prev6">Previous</button>
-    <button type="button" id="next6">Next</button>
-  </div>
-</section>
-
-<!-- STEP 7 -->
-<section id="step7">
-  <h2><i class="fa fa-broom"></i> Cleaning Scope & Operational Details</h2>
-  <label for="trashHandling">Trash Removal Responsibility</label>
-  <select id="trashHandling" name="trashHandling">
-    <option value="">Select</option>
-    <option>Client handles waste disposal</option>
-    <option>Cleaning team removes all trash</option>
-    <option>Shared responsibility</option>
-  </select>
-  <label for="consumables">Restroom Consumables Supply</label>
-  <select id="consumables" name="consumables">
-    <option value="">Select</option>
-    <option>Client-supplied</option>
-    <option>Cleaning contractor-supplied</option>
-  </select>
-  <label for="disinfectionAreas">Disinfection Focus Areas</label>
-  <textarea id="disinfectionAreas" name="disinfectionAreas" rows="2"></textarea>
-  <label for="onSiteEquipment">On-Site Cleaning Equipment Available</label>
-  <textarea id="onSiteEquipment" name="onSiteEquipment" rows="2"></textarea>
-  <label for="storageSpace">Storage Space Available for Supplies</label>
-  <select id="storageSpace" name="storageSpace">
-    <option value="">Select</option>
-    <option>Yes</option><option>No</option><option>Limited</option>
-  </select>
-  <label for="waterAccess">Water Source / Drain Availability</label>
-  <select id="waterAccess" name="waterAccess">
-    <option value="">Select</option>
-    <option>Readily available</option>
-    <option>Limited access</option>
-    <option>No on-site access</option>
-  </select>
-  <div class="nav-buttons">
-    <button type="button" id="prev7">Previous</button>
-    <button type="button" id="next7">Next</button>
-  </div>
-</section>
-
-<!-- STEP 8 -->
-<section id="step8">
-  <h2><i class="fa fa-clipboard-list"></i> Compliance & Sustainability</h2>
-  <label for="insuranceReq">Insurance Requirements</label>
-  <select id="insuranceReq" name="insuranceReq">
-    <option value="">Select</option>
-    <option>WSIB Certificate Required</option>
-    <option>General Liability Insurance Required</option>
-    <option>Both</option><option>Not Required</option>
-  </select>
-  <label for="checkIn">Preferred Supervision / Check-in Method</label>
-  <select id="checkIn" name="checkIn">
-    <option value="">Select</option>
-    <option>Sign-in Sheet</option>
-    <option>Photo Proof via App</option>
-    <option>Verbal Confirmation</option>
-  </select>
-  <label for="compliance">Compliance Standards</label>
-  <select id="compliance" name="compliance">
-    <option value="">Select</option>
-    <option>ISO 9001</option>
-    <option>GMP / Food Safety</option>
-    <option>LEED Certification</option>
-    <option>Other</option>
-  </select>
-  <label for="ecoFriendly">Use of Eco-Friendly Cleaning Products?</label>
-  <select id="ecoFriendly" name="ecoFriendly">
-    <option value="">Select</option>
-    <option>Yes, mandatory</option>
-    <option>Preferred if available</option>
-    <option>No preference</option>
-  </select>
-  <label for="fragranceRestriction">Fragrance / Chemical Restrictions</label>
-  <select id="fragranceRestriction" name="fragranceRestriction">
-    <option value="">Select</option>
-    <option>Fragrance-Free Only</option>
-    <option>Low-VOC</option>
-    <option>No Restrictions</option>
-  </select>
-  <div class="nav-buttons">
-    <button type="button" id="prev8">Previous</button>
-    <button type="button" id="next8">Next</button>
-  </div>
-</section>
-
-<!-- STEP 9 — PRICING ESTIMATOR -->
-<section id="step9">
-  <h2><i class="fa fa-calculator"></i> Dynamic Monthly Pricing Estimator</h2>
-  <p>Estimate your monthly cleaning cost based on work hours, payroll, and overhead.</p>
-  <label for="hoursPerDay">Hours Worked per Day</label><input type="number" id="hoursPerDay" step="0.1">
-  <label for="daysPerWeek">Days Worked per Week</label><input type="number" id="daysPerWeek" step="1">
-  <label for="hourlyRate">Employee Hourly Rate (CAD)</label><input type="number" id="hourlyRate" step="0.01">
-  <label for="overhead">Overhead Cost (%)</label><input type="number" id="overhead" step="0.1">
-  <label for="salesTax">Sales Tax (%)</label><input type="number" id="salesTax" step="0.1">
-  <label for="profit">Profit (%)</label><input type="number" id="profit" step="0.1">
-
-  <div id="calcResults" style="margin-top:15px;padding:15px;border:1px solid #E5E7EB;border-radius:6px;background:#F9FAFB;display:none;">
-    <h3 style="margin-top:0;color:#0056D2;">Estimated Monthly Breakdown</h3>
-    <p><strong>Labor Cost:</strong> <span id="laborCost">$0.00</span></p>
-    <p><strong>Payroll Tax (10%):</strong> <span id="payrollTax">$0.00</span></p>
-    <p><strong>Profit Amount:</strong> <span id="profitAmount">$0.00</span></p>
-    <p><strong>Sales Tax Amount:</strong> <span id="salesTaxAmount">$0.00</span></p>
-    <hr><p><strong>Total Before Tax:</strong> <span id="totalBeforeTax">$0.00</span></p>
-    <p><strong>Total After Tax:</strong> <span id="totalAfterTax">$0.00</span></p>
+  <!-- PROGRESS BAR -->
+  <div id="progressText" role="status">Step 1 of 11</div>
+  <div id="progressContainer" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+    <div id="progressBar"></div>
   </div>
 
-  <div class="nav-buttons">
-    <button type="button" id="prev9">Previous</button>
-    <button type="button" id="calcEstimate"><i class="fa fa-calculator"></i> Calculate</button>
-    <button type="button" id="next9">Next</button>
-  </div>
-</section>
+  <!-- STEP 1 — CLIENT & SITE INFORMATION -->
+  <section id="step1" class="active">
+    <h2><i class="fa fa-user"></i> Step 1 — Client & Site Information</h2>
+    <p>Please fill out the client and site details to begin the walkthrough.</p>
 
-<!-- STEP 10 — REVIEW + PDF -->
-<section id="step10">
-  <h2><i class="fa fa-eye"></i> Review & Export Summary</h2>
-  <p>Review all information before exporting or emailing the walkthrough report.</p>
-  <div id="summaryContent" style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:8px;padding:15px;margin-bottom:20px;"></div>
-  <div class="nav-buttons">
-    <button type="button" id="prev10">Previous</button>
-    <button type="button" id="downloadPDF"><i class="fa fa-file-pdf"></i> Download PDF</button>
-    <button type="button" id="emailGmail"><i class="fa fa-envelope"></i> Email via Gmail</button>
-  </div>
-</section>
-</form>
+    <label for="assessorName">Assessor Name *</label>
+    <input type="text" id="assessorName" placeholder="e.g., John Smith" required>
+    <span class="validation-message" id="assessorNameValidation"></span>
+
+    <label for="clientName">Client / Company Name *</label>
+    <input type="text" id="clientName" placeholder="e.g., ABC Holdings Inc." required>
+    <span class="validation-message" id="clientNameValidation"></span>
+
+    <label for="contactPerson">Contact Person *</label>
+    <input type="text" id="contactPerson" placeholder="e.g., Sarah Lee" required>
+    <span class="validation-message" id="contactPersonValidation"></span>
+
+    <label for="email">Email Address *</label>
+    <input type="email" id="email" placeholder="e.g., contact@example.com" required>
+    <span class="validation-message" id="emailValidation"></span>
+
+    <label for="phone">Phone Number *</label>
+    <input type="tel" id="phone" placeholder="e.g., +1 (613) 555-1234" required class="phone-input">
+    <span class="validation-message" id="phoneValidation"></span>
+
+    <label for="address">Site Address</label>
+    <textarea id="address" rows="2" placeholder="e.g., 300 Coventry Rd, Ottawa, ON K1K 4P5"></textarea>
+
+    <label for="facilityType">Facility Type *</label>
+    <select id="facilityType" required>
+      <option value="">Select type…</option>
+      <option>Office Building</option>
+      <option>Medical / Dental Clinic</option>
+      <option>School / Educational</option>
+      <option>Retail / Storefront</option>
+      <option>Warehouse / Industrial</option>
+      <option>Gym / Fitness Center</option>
+      <option>Restaurant / Food Service</option>
+      <option>Other</option>
+    </select>
+    <span class="validation-message" id="facilityTypeValidation"></span>
+
+    <label for="hours">Operating Hours</label>
+    <input type="text" id="hours" placeholder="e.g., 8:00 AM – 8:00 PM">
+
+    <label for="assessmentDate">Assessment Date</label>
+    <input type="date" id="assessmentDate">
+
+    <label for="startDate">Preferred Start Date</label>
+    <input type="date" id="startDate">
+
+    <div class="nav-buttons">
+      <button type="button" id="next1">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 2 — FACILITY OVERVIEW -->
+  <section id="step2">
+    <h2><i class="fa fa-building"></i> Step 2 — Facility Overview</h2>
+    <p>Provide general information about the facility to help us calculate accurate cleaning time and cost.</p>
+
+    <label for="squareFootage">Total Square Footage *</label>
+    <input type="number" id="squareFootage" placeholder="e.g., 10,000" required min="1">
+    <span class="validation-message" id="squareFootageValidation"></span>
+
+    <label for="floors">Number of Floors</label>
+    <input type="number" id="floors" placeholder="e.g., 3" min="1">
+
+    <label for="frequency">Cleaning Frequency *</label>
+    <select id="frequency" required>
+      <option value="">Select frequency…</option>
+      <option value="Daily">Daily</option>
+      <option value="Weekly">Weekly</option>
+      <option value="Bi-Weekly">Bi-Weekly</option>
+      <option value="Monthly">Monthly</option>
+      <option value="One-Time">One-Time Cleaning</option>
+    </select>
+    <span class="validation-message" id="frequencyValidation"></span>
+
+    <label for="flooringType">Primary Flooring Type</label>
+    <select id="flooringType">
+      <option value="">Select type…</option>
+      <option>Tile</option>
+      <option>Carpet</option>
+      <option>Vinyl</option>
+      <option>Concrete</option>
+      <option>Mixed</option>
+    </select>
+
+    <label for="accessNotes">Access & Security Notes</label>
+    <textarea id="accessNotes" rows="2" placeholder="e.g., Security badge required, alarm code, entry process..."></textarea>
+
+    <div class="nav-buttons">
+      <button type="button" id="prev2">Previous</button>
+      <button type="button" id="next2">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 3 — AREA-BY-AREA INSPECTION -->
+  <section id="step3">
+    <h2><i class="fa fa-clipboard-check"></i> Step 3 — Area-by-Area Inspection</h2>
+    <p>Inspect each main area, add your notes, and upload up to five photos for documentation.</p>
+
+    <!-- FRONT DESK -->
+    <div class="inspection-area">
+      <h3><i class="fa fa-receipt"></i> Front Desk / Reception</h3>
+      <label for="frontDeskNotes">Inspection Notes</label>
+      <textarea id="frontDeskNotes" rows="2" placeholder="e.g., Fingerprints on reception glass, dust on counter..."></textarea>
+
+      <label for="frontDeskPhotos">Upload Photos (max 5)</label>
+      <input type="file" id="frontDeskPhotos" accept="image/*" multiple>
+      <div class="photo-grid" id="frontDeskPreview"></div>
+    </div>
+
+    <!-- OFFICES -->
+    <div class="inspection-area">
+      <h3><i class="fa fa-briefcase"></i> Offices / Workspaces</h3>
+      <label for="officeNotes">Inspection Notes</label>
+      <textarea id="officeNotes" rows="2" placeholder="e.g., Dust on desks, debris under chairs..."></textarea>
+
+      <label for="officePhotos">Upload Photos (max 5)</label>
+      <input type="file" id="officePhotos" accept="image/*" multiple>
+      <div class="photo-grid" id="officePreview"></div>
+    </div>
+
+    <!-- CLASSROOMS -->
+    <div class="inspection-area">
+      <h3><i class="fa fa-chalkboard-teacher"></i> Classrooms</h3>
+      <label for="classroomNotes">Inspection Notes</label>
+      <textarea id="classroomNotes" rows="2" placeholder="e.g., Stains on desks, smudges on whiteboard..."></textarea>
+
+      <label for="classroomPhotos">Upload Photos (max 5)</label>
+      <input type="file" id="classroomPhotos" accept="image/*" multiple>
+      <div class="photo-grid" id="classroomPreview"></div>
+    </div>
+
+    <!-- STAIRWELLS -->
+    <div class="inspection-area">
+      <h3><i class="fa fa-stairs"></i> Stairwells</h3>
+      <label for="stairwellNotes">Inspection Notes</label>
+      <textarea id="stairwellNotes" rows="2" placeholder="e.g., Dust on rails, debris in corners..."></textarea>
+
+      <label for="stairwellPhotos">Upload Photos (max 5)</label>
+      <input type="file" id="stairwellPhotos" accept="image/*" multiple>
+      <div class="photo-grid" id="stairwellPreview"></div>
+    </div>
+
+    <!-- BATHROOMS -->
+    <div class="inspection-area">
+      <h3><i class="fa fa-toilet"></i> Bathrooms / Washrooms</h3>
+      <label for="bathroomNotes">Inspection Notes</label>
+      <textarea id="bathroomNotes" rows="2" placeholder="e.g., Grout discoloration, missing paper towels, odor issues..."></textarea>
+
+      <label for="bathroomPhotos">Upload Photos (max 5)</label>
+      <input type="file" id="bathroomPhotos" accept="image/*" multiple>
+      <div class="photo-grid" id="bathroomPreview"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" id="prev3">Previous</button>
+      <button type="button" id="next3">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 4 — STANDARD COMMERCIAL CLEANING (WITH FREQUENCY) -->
+  <section id="step4">
+    <h2><i class="fa fa-broom"></i> Step 4 — Standard Commercial Cleaning</h2>
+    <p>Select all applicable cleaning tasks and specify frequency for each.</p>
+
+    <!-- GENERAL AREAS / OFFICES -->
+    <div class="task-section">
+      <h3>General Areas / Offices</h3>
+      <div class="task-list">
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="generalTasks" value="Empty all trash bins and replace liners"> 
+            Empty all trash bins and replace liners
+          </label>
+          <select class="frequency-dropdown" data-task="generalTasks1">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="generalTasks" value="Dust desks, furniture, and fixtures"> 
+            Dust desks, furniture, and fixtures
+          </label>
+          <select class="frequency-dropdown" data-task="generalTasks2">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="generalTasks" value="Wipe down high-touch surfaces"> 
+            Wipe down high-touch surfaces (door handles, light switches, phones)
+          </label>
+          <select class="frequency-dropdown" data-task="generalTasks3">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="generalTasks" value="Vacuum carpets and rugs"> 
+            Vacuum carpets and rugs
+          </label>
+          <select class="frequency-dropdown" data-task="generalTasks4">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="generalTasks" value="Sweep and mop hard floors"> 
+            Sweep and mop hard floors
+          </label>
+          <select class="frequency-dropdown" data-task="generalTasks5">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="generalTasks" value="Spot-clean glass, mirrors, and walls"> 
+            Spot-clean glass, mirrors, and walls
+          </label>
+          <select class="frequency-dropdown" data-task="generalTasks6">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- BATHROOMS -->
+    <div class="task-section">
+      <h3>Bathrooms / Washrooms</h3>
+      <div class="task-list">
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="bathroomTasks" value="Clean and disinfect toilets, sinks, and urinals"> 
+            Clean and disinfect toilets, sinks, and urinals
+          </label>
+          <select class="frequency-dropdown" data-task="bathroomTasks1">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="bathroomTasks" value="Restock toilet paper, paper towels, and soap"> 
+            Restock toilet paper, paper towels, and soap dispensers
+          </label>
+          <select class="frequency-dropdown" data-task="bathroomTasks2">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="bathroomTasks" value="Wipe mirrors and fixtures"> 
+            Wipe mirrors and fixtures
+          </label>
+          <select class="frequency-dropdown" data-task="bathroomTasks3">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="bathroomTasks" value="Sweep and mop floors with disinfectant"> 
+            Sweep and mop floors with disinfectant
+          </label>
+          <select class="frequency-dropdown" data-task="bathroomTasks4">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="bathroomTasks" value="Empty and sanitize trash bins"> 
+            Empty and sanitize trash bins
+          </label>
+          <select class="frequency-dropdown" data-task="bathroomTasks5">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- KITCHEN -->
+    <div class="task-section">
+      <h3>Kitchen</h3>
+      <div class="task-list">
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="kitchenTasks" value="Clean and disinfect countertops and sinks"> 
+            Clean and disinfect countertops and sinks
+          </label>
+          <select class="frequency-dropdown" data-task="kitchenTasks1">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="kitchenTasks" value="Wipe exterior of appliances"> 
+            Wipe exterior of appliances
+          </label>
+          <select class="frequency-dropdown" data-task="kitchenTasks2">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <!-- Add remaining kitchen tasks with same pattern -->
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="kitchenTasks" value="Clean microwaves (inside and outside)"> 
+            Clean microwaves (inside and outside)
+          </label>
+          <select class="frequency-dropdown" data-task="kitchenTasks3">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="kitchenTasks" value="Restock paper towels and soap dispensers"> 
+            Restock paper towels and soap dispensers
+          </label>
+          <select class="frequency-dropdown" data-task="kitchenTasks4">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="kitchenTasks" value="Sweep and mop kitchen floors"> 
+            Sweep and mop kitchen floors
+          </label>
+          <select class="frequency-dropdown" data-task="kitchenTasks5">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add other sections (Breakroom, Entrances, Stairwells) with same pattern -->
+
+    <div class="nav-buttons">
+      <button type="button" id="prev4">Previous</button>
+      <button type="button" id="next4">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 5 — ADD-ON SERVICES (WITH FREQUENCY) -->
+  <section id="step5">
+    <h2><i class="fa fa-plus-circle"></i> Step 5 — Add-On Services</h2>
+    <p>Select any optional specialty cleaning services and specify frequency.</p>
+
+    <div class="task-section">
+      <h3>Optional Services</h3>
+      <div class="task-list">
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="addonTasks" value="Carpet deep cleaning / extraction"> 
+            Carpet deep cleaning / extraction
+          </label>
+          <select class="frequency-dropdown" data-task="addonTasks1">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="addonTasks" value="Window cleaning (interior/exterior)"> 
+            Window cleaning (interior/exterior)
+          </label>
+          <select class="frequency-dropdown" data-task="addonTasks2">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="addonTasks" value="Floor stripping and waxing"> 
+            Floor stripping and waxing
+          </label>
+          <select class="frequency-dropdown" data-task="addonTasks3">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="addonTasks" value="High dusting and vent cleaning"> 
+            High dusting and vent cleaning
+          </label>
+          <select class="frequency-dropdown" data-task="addonTasks4">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="addonTasks" value="Disinfection fogging service"> 
+            Disinfection fogging service
+          </label>
+          <select class="frequency-dropdown" data-task="addonTasks5">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="addonTasks" value="Pressure washing (exterior)"> 
+            Pressure washing (exterior)
+          </label>
+          <select class="frequency-dropdown" data-task="addonTasks6">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+        
+        <div class="task-with-frequency">
+          <label class="task-checkbox">
+            <input type="checkbox" name="addonTasks" value="Post-construction cleanup"> 
+            Post-construction cleanup
+          </label>
+          <select class="frequency-dropdown" data-task="addonTasks7">
+            <option value="Each Visit">Each Visit</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Annually">Annually</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button type="button" id="prev5">Previous</button>
+      <button type="button" id="next5">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 6 — FACILITY COMPOSITION -->
+  <section id="step6">
+    <h2><i class="fa fa-layer-group"></i> Step 6 — Facility Composition</h2>
+    <p>Provide detailed information about the facility's layout and equipment access.</p>
+
+    <label for="numRestrooms">Number of Restrooms</label>
+    <input type="number" id="numRestrooms" min="0" placeholder="e.g., 6">
+
+    <label for="numKitchens">Number of Kitchens / Break Areas</label>
+    <input type="number" id="numKitchens" min="0" placeholder="e.g., 2">
+
+    <label for="ceilingType">Ceiling Type</label>
+    <select id="ceilingType">
+      <option value="">Select type…</option>
+      <option>Drop ceiling (tiles)</option>
+      <option>Open / Exposed</option>
+      <option>Drywall / Solid</option>
+      <option>Mixed</option>
+    </select>
+
+    <label for="entrances">Number of Entrances</label>
+    <input type="number" id="entrances" min="0" placeholder="e.g., 3">
+
+    <label for="cleaningHours">Preferred Cleaning Hours</label>
+    <select id="cleaningHours">
+      <option value="">Select option…</option>
+      <option>During business hours</option>
+      <option>After hours / overnight</option>
+      <option>Weekend cleaning</option>
+    </select>
+
+    <label for="storageSpace">On-site Storage for Supplies</label>
+    <select id="storageSpace">
+      <option value="">Select option…</option>
+      <option>Dedicated janitor closet</option>
+      <option>Shared space</option>
+      <option>None available</option>
+    </select>
+
+    <div class="nav-buttons">
+      <button type="button" id="prev6">Previous</button>
+      <button type="button" id="next6">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 7 — OCCUPANCY & USAGE -->
+  <section id="step7">
+    <h2><i class="fa fa-users"></i> Step 7 — Occupancy & Usage</h2>
+    <p>Provide information about how the facility is used and the average number of occupants during business hours.</p>
+
+    <label for="avgOccupancy">Average Number of Occupants</label>
+    <input type="number" id="avgOccupancy" placeholder="e.g., 45">
+
+    <label for="peakHours">Peak Hours / Traffic Periods</label>
+    <input type="text" id="peakHours" placeholder="e.g., 11 AM – 2 PM, 4 PM – 6 PM">
+
+    <label for="eventFrequency">Special Events or Meeting Frequency</label>
+    <select id="eventFrequency">
+      <option value="">Select frequency…</option>
+      <option>Daily</option>
+      <option>Weekly</option>
+      <option>Monthly</option>
+      <option>Occasional / Seasonal</option>
+      <option>Never</option>
+    </select>
+
+    <label for="specialConsiderations">Special Considerations (e.g., pets, high-traffic, sensitive areas)</label>
+    <textarea id="specialConsiderations" rows="2" placeholder="e.g., Dog-friendly office, 24-hour staff, etc."></textarea>
+
+    <div class="nav-buttons">
+      <button type="button" id="prev7">Previous</button>
+      <button type="button" id="next7">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 8 — CLEANING SCOPE & OPERATIONS -->
+  <section id="step8">
+    <h2><i class="fa fa-tools"></i> Step 8 — Cleaning Scope & Operations</h2>
+    <p>Outline the operational details such as trash handling, supply management, and disinfection responsibilities.</p>
+
+    <label for="trashHandling">Trash & Waste Handling</label>
+    <select id="trashHandling">
+      <option value="">Select option…</option>
+      <option>On-site dumpsters / bins</option>
+      <option>Building staff handles removal</option>
+      <option>Requires off-site disposal</option>
+    </select>
+
+    <label for="consumables">Consumables Provided By</label>
+    <select id="consumables">
+      <option value="">Select option…</option>
+      <option>Client (paper towels, soap, toilet paper)</option>
+      <option>Cleaning Company (A TO Z)</option>
+      <option>Shared Responsibility</option>
+    </select>
+
+    <label for="disinfectionAreas">High-Touch Disinfection Areas</label>
+    <textarea id="disinfectionAreas" rows="2" placeholder="e.g., Door handles, elevator buttons, kitchen surfaces"></textarea>
+
+    <label for="onSiteEquipment">On-Site Equipment Availability</label>
+    <select id="onSiteEquipment">
+      <option value="">Select option…</option>
+      <option>Vacuum, mop, and cleaning cart available</option>
+      <option>Limited equipment — bring own</option>
+      <option>No equipment available on-site</option>
+    </select>
+
+    <label for="supplyLocation">Supply Refill / Replenishment Location</label>
+    <input type="text" id="supplyLocation" placeholder="e.g., Janitor closet, Room 204, etc.">
+
+    <label for="specialInstructions">Special Instructions or Cleaning Restrictions</label>
+    <textarea id="specialInstructions" rows="2" placeholder="e.g., No strong fragrances, eco-products only, etc."></textarea>
+
+    <div class="nav-buttons">
+      <button type="button" id="prev8">Previous</button>
+      <button type="button" id="next8">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 9 — COMPLIANCE & SUSTAINABILITY (SINGLE INSTANCE) -->
+  <section id="step9">
+    <h2><i class="fa fa-shield-alt"></i> Step 9 — Compliance & Sustainability</h2>
+    <p>Outline any compliance, safety, or environmental requirements for this site.</p>
+
+    <label for="insuranceReq">Insurance Requirements</label>
+    <select id="insuranceReq">
+      <option value="">Select option…</option>
+      <option>Standard Liability (2M)</option>
+      <option>High Coverage (5M+)</option>
+      <option>WSIB / CNESST Required</option>
+      <option>Proof of Insurance Required Before Start</option>
+    </select>
+
+    <label for="checkIn">Check-In / Access Control System</label>
+    <select id="checkIn">
+      <option value="">Select option…</option>
+      <option>Manual Sign-In / Logbook</option>
+      <option>Key Fob / Card System</option>
+      <option>Digital Time Tracking App</option>
+      <option>Supervisor Check-In</option>
+      <option>None Required</option>
+    </select>
+
+    <label for="compliance">Compliance Standards</label>
+    <select id="compliance">
+      <option value="">Select applicable standards…</option>
+      <option>WHMIS / SDS</option>
+      <option>Occupational Health & Safety Act (Ontario)</option>
+      <option>CNESST (Quebec)</option>
+      <option>ISO 14001 / Environmental Management</option>
+      <option>LEED / BOMA Certifications</option>
+      <option>Other</option>
+    </select>
+
+    <label for="ecoFriendly">Eco-Friendly Product Requirement</label>
+    <select id="ecoFriendly">
+      <option value="">Select option…</option>
+      <option>Yes — strictly green-certified</option>
+      <option>Preferred but not mandatory</option>
+      <option>No preference</option>
+    </select>
+
+    <label for="fragranceRestriction">Fragrance or Allergen Restrictions</label>
+    <select id="fragranceRestriction">
+      <option value="">Select option…</option>
+      <option>Fragrance-free only</option>
+      <option>Low-scent cleaning products only</option>
+      <option>No restrictions</option>
+    </select>
+
+    <label for="otherComplianceNotes">Other Compliance Notes</label>
+    <textarea id="otherComplianceNotes" rows="2" placeholder="e.g., Require PPE on site, safety orientation needed, etc."></textarea>
+
+    <div class="nav-buttons">
+      <button type="button" id="prev9">Previous</button>
+      <button type="button" id="next9">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 10 — ENHANCED CALCULATOR WITH FREQUENCY ADD-ONS -->
+  <section id="step10">
+    <h2><i class="fa fa-calculator"></i> Step 10 — Dynamic Monthly Pricing & Cleaning Time Estimator</h2>
+    <p>Calculate total cleaning hours, costs, and pricing automatically based on facility data.</p>
+
+    <div class="template-system">
+      <h3>Quick Templates</h3>
+      <div class="template-grid">
+        <div class="template-card" data-template="standard">
+          <strong>Standard Office</strong>
+          <p>Basic cleaning for typical office space</p>
+        </div>
+        <div class="template-card" data-template="deep">
+          <strong>Deep Clean</strong>
+          <p>Thorough cleaning for move-in/out</p>
+        </div>
+        <div class="template-card" data-template="medical">
+          <strong>Medical Facility</strong>
+          <p>High-disinfection requirements</p>
+        </div>
+        <div class="template-card" data-template="industrial">
+          <strong>Industrial</strong>
+          <p>Warehouse or manufacturing facility</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc-grid">
+      <!-- LEFT: INPUTS -->
+      <div class="calc-inputs">
+        <label for="cleaningType">Cleaning Type</label>
+        <select id="cleaningType">
+          <option value="standard" selected>Standard (All Tasks)</option>
+          <option value="basic">Basic (Light Routine)</option>
+          <option value="deep">Deep (Detailed Cleaning)</option>
+        </select>
+
+        <label for="crewSize">Crew Size</label>
+        <input type="number" id="crewSize" min="1" value="1">
+
+        <label for="setupTime">Travel / Setup Time (hours per job)</label>
+        <input type="number" id="setupTime" step="0.1" value="0.5" min="0">
+
+        <label for="productivity">Productivity (sq ft per hour per cleaner)</label>
+        <input type="number" id="productivity" step="10" value="333" min="1">
+
+        <label for="cleanFrequency">Cleaning Frequency (auto-filled from Step 2)</label>
+        <select id="cleanFrequency">
+          <option value="1" selected>One-Time Cleaning</option>
+          <option value="0.9">Weekly Contract (-10%)</option>
+          <option value="0.8">Bi-Weekly Contract (-20%)</option>
+          <option value="0.7">Daily Contract (-30%)</option>
+        </select>
+
+        <label for="hourlyRate">Employee Hourly Rate (CAD)</label>
+        <input type="number" id="hourlyRate" step="0.01" value="17.60" min="0">
+
+        <label for="overhead">Overhead Cost (%)</label>
+        <input type="number" id="overhead" step="0.1" placeholder="e.g., 15" min="0">
+
+        <label for="profit">Profit Margin (%)</label>
+        <input type="number" id="profit" step="0.1" placeholder="e.g., 30" min="0">
+
+        <label for="salesTax">Sales Tax (%)</label>
+        <input type="number" id="salesTax" step="0.1" placeholder="e.g., 13" min="0">
+
+        <h3 style="color:#004AAD;margin-top:20px;">Optional Add-On Services (with Frequency)</h3>
+        <div id="addonsList" style="display:grid;grid-template-columns:1fr;gap:8px;">
+          <div class="task-with-frequency">
+            <label class="task-checkbox">
+              <input type="checkbox" class="addon" data-rate="0.05"> 
+              Carpet Extraction (+ $0.05 /sq ft)
+            </label>
+            <select class="frequency-dropdown addon-frequency" data-addon="carpet">
+              <option value="Each Visit">Each Visit</option>
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Quarterly">Quarterly</option>
+              <option value="Annually">Annually</option>
+            </select>
+          </div>
+          
+          <div class="task-with-frequency">
+            <label class="task-checkbox">
+              <input type="checkbox" class="addon" data-rate="0.03"> 
+              Window Cleaning (+ $0.03 /sq ft)
+            </label>
+            <select class="frequency-dropdown addon-frequency" data-addon="window">
+              <option value="Each Visit">Each Visit</option>
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Quarterly">Quarterly</option>
+              <option value="Annually">Annually</option>
+            </select>
+          </div>
+          
+          <div class="task-with-frequency">
+            <label class="task-checkbox">
+              <input type="checkbox" class="addon" data-rate="0.10"> 
+              Floor Strip & Wax (+ $0.10 /sq ft)
+            </label>
+            <select class="frequency-dropdown addon-frequency" data-addon="floor">
+              <option value="Each Visit">Each Visit</option>
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Quarterly">Quarterly</option>
+              <option value="Annually">Annually</option>
+            </select>
+          </div>
+          
+          <div class="task-with-frequency">
+            <label class="task-checkbox">
+              <input type="checkbox" class="addon" data-rate="0.02"> 
+              High Dusting / Vents (+ $0.02 /sq ft)
+            </label>
+            <select class="frequency-dropdown addon-frequency" data-addon="dusting">
+              <option value="Each Visit">Each Visit</option>
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Quarterly">Quarterly</option>
+              <option value="Annually">Annually</option>
+            </select>
+          </div>
+          
+          <div class="task-with-frequency">
+            <label class="task-checkbox">
+              <input type="checkbox" class="addon" data-rate="0.04"> 
+              Disinfection Fogging (+ $0.04 /sq ft)
+            </label>
+            <select class="frequency-dropdown addon-frequency" data-addon="fogging">
+              <option value="Each Visit">Each Visit</option>
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Quarterly">Quarterly</option>
+              <option value="Annually">Annually</option>
+            </select>
+          </div>
+        </div>
+
+        <p id="addonsSummary" style="color:#004AAD;font-weight:500;display:none;">
+          Add-Ons Selected: <span id="addonCount">0</span> | Extra Rate: $<span id="addonRate">0.00</span> /sq ft
+        </p>
+
+        <div class="nav-buttons">
+          <button type="button" id="prev10">Previous</button>
+          <button type="button" id="calcTime"><i class="fa fa-stopwatch"></i> Calculate</button>
+          <button type="button" id="next10">Next</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: RESULTS -->
+      <div class="calc-results">
+        <div id="timeResults" style="display:none;">
+          <h3><i class="fa fa-clock"></i> Estimated Cleaning Time & Pricing</h3>
+          <p><strong>Total Cleaning Hours:</strong> <span id="totalCleaningHours">0</span> hrs</p>
+          <p><strong>Per Cleaner:</strong> <span id="perCleanerHours">0</span> hrs</p>
+          <p><strong>Labor Cost:</strong> <span id="laborCost">$0.00</span></p>
+          <p><strong>Overhead Cost:</strong> <span id="overheadCost">$0.00</span></p>
+          <p><strong>Profit Amount:</strong> <span id="profitAmount">$0.00</span></p>
+          <p><strong>Total Estimated Cost (Before Tax):</strong> <span id="totalBeforeTax">$0.00</span></p>
+          <p><strong>Sales Tax:</strong> <span id="salesTaxAmount">$0.00</span></p>
+          <hr>
+          <p><strong>Total Estimated Cost (After Tax):</strong> <span id="totalAfterTax">$0.00</span></p>
+          
+          <button id="genQuote" style="margin-top: 15px;">
+            <i class="fa fa-file-pdf"></i> Generate Quote PDF
+          </button>
+        </div>
+
+        <p id="ratePerSqFt" style="display:none;background:linear-gradient(90deg,#004AAD,#00C2FF);color:#fff;padding:10px;border-radius:8px;text-align:center;font-weight:600;margin-top:12px;">
+          Estimated Rate: <span id="rateValue">$0.00</span> / sq ft — <span id="rateLabel">Standard Cleaning</span>
+        </p>
+
+        <div id="summaryCard" style="display:none;background:#F8FAFB;border:1px solid #E5E7EB;border-radius:8px;padding:15px;margin-top:10px;">
+          <p><strong>Profit Margin:</strong> <span id="profitMarginValue">0%</span></p>
+          <p><strong>Revenue Per Hour:</strong> <span id="revenuePerHour">$0.00 / hr</span></p>
+          <p><em style="font-size:0.85rem;color:#6B7280;">Note: If Profit Margin shows red, it's below 20% — increase hourly rate or reduce overhead for better profitability.</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 11 — ENHANCED REVIEW & EXPORT SUMMARY -->
+  <section id="step11">
+    <h2><i class="fa fa-file-invoice"></i> Step 11 — Review & Export Summary</h2>
+    <p>Review the collected data, then export or email a professional summary.</p>
+
+    <div class="quote-manager">
+      <h3>Quote Management</h3>
+      <div class="nav-buttons" style="margin-top: 10px;">
+        <button type="button" id="saveQuote" class="success-btn">
+          <i class="fa fa-save"></i> Save Current Quote
+        </button>
+        <button type="button" id="exportData" class="secondary-btn">
+          <i class="fa fa-download"></i> Export Data
+        </button>
+        <button type="button" id="importData" class="secondary-btn">
+          <i class="fa fa-upload"></i> Import Data
+        </button>
+      </div>
+      <div class="quote-list" id="savedQuotesList">
+        <!-- Saved quotes will appear here -->
+      </div>
+    </div>
+
+    <div id="summaryContent"
+         style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--surface);
+                max-height:500px;overflow-y:auto;"></div>
+
+    <div class="nav-buttons">
+      <button type="button" id="prev11">Previous</button>
+      <button type="button" class="secondary-btn" id="downloadPDF">
+        <i class="fa fa-download"></i> Download PDF
+      </button>
+      <button type="button" id="emailGmail"><i class="fa fa-envelope"></i> Email via Gmail</button>
+      <button type="button" class="reset-btn" id="resetForm"><i class="fa fa-trash"></i> Reset Form</button>
+    </div>
+  </section>
 </main>
 
-<footer>© 2025 A TO Z Cleaning Expert Ltd. — All rights reserved.</footer>
+<!-- LIGHTBOX -->
+<div id="photoLightbox">
+  <button id="lightboxPrev" aria-label="Previous photo"><i class="fa fa-chevron-left"></i></button>
+  <img id="lightboxImg" src="" alt="Inspection Photo">
+  <button id="lightboxNext" aria-label="Next photo"><i class="fa fa-chevron-right"></i></button>
+  <div id="lightboxCaption"></div>
+</div>
 
-<!-- =============== SCRIPTS ================ -->
+<!-- FOOTER -->
+<footer>
+  <p><strong>A TO Z CLEANING EXPERT LTD.</strong><br>
+     300 Coventry Road Suite 401, Ottawa ON K1K 4P5<br>
+     <a href="mailto:contact@atozcleaningexpert.com">contact@atozcleaningexpert.com</a> | 
+     <a href="tel:+16135054688">+1 (613) 505-4688</a><br>
+     <a href="https://www.atozcleaningexpert.ca">www.atozcleaningexpert.ca</a></p>
+  <p>© 2025 A TO Z Cleaning Expert Ltd. All Rights Reserved.</p>
+</footer>
+
+<!-- PDF + LOGIC -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-const totalSteps=10;let currentStep=1;
-const titles=["Client Information","Facility Overview","Area Inspection","Add-On Services","Facility Composition","Occupancy & Usage","Cleaning Scope","Compliance & Sustainability","Pricing Estimator","Review & Export"];
+/* ============================================================
+   A TO Z CLEANING EXPERT LTD. — v5.3 COMPLETE SCRIPT
+   All frequency options restored, phone fixed, complete summary
+   ============================================================ */
 
-function showStep(step){document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-document.getElementById(`step${step}`).classList.add("active");
-document.getElementById("progressBar").style.width=(step/totalSteps*100)+"%";
-document.getElementById("progressText").textContent=`Step ${step} of ${totalSteps}`;
-document.getElementById("progressTitle").textContent=titles[step-1]||"";
-currentStep=step;saveData();window.scrollTo({top:0,behavior:"smooth"});
-if(step===10)generateSummary();}
-for(let i=1;i<=totalSteps;i++){const n=document.getElementById(`next${i}`),p=document.getElementById(`prev${i}`);
-if(n)n.addEventListener("click",()=>showStep(i+1));
-if(p)p.addEventListener("click",()=>showStep(i-1));}
+class CleaningEstimator {
+  constructor() {
+    this.currentStep = 1;
+    this.totalSteps = 11;
+    this.photoStore = {};
+    this.savedQuotes = JSON.parse(localStorage.getItem('AtoZQuotes') || '[]');
+    this.debounceTimer = null;
+    
+    this.init();
+  }
 
-function saveData(){const f=document.getElementById("walkthroughForm");
-const d=new FormData(f);let obj={};d.forEach((v,k)=>obj[k]=v);
-obj.step=currentStep;localStorage.setItem("AtoZWalkthrough",JSON.stringify(obj));showToast();}
-function loadData(){const s=localStorage.getItem("AtoZWalkthrough");if(!s)return;
-const obj=JSON.parse(s),f=document.getElementById("walkthroughForm");
-for(const k in obj){if(f.elements[k])f.elements[k].value=obj[k];}
-if(obj.step)showStep(obj.step);}
-window.addEventListener("load",loadData);
-document.getElementById("walkthroughForm").addEventListener("input",saveData);
-function showToast(){const t=document.getElementById("saveToast");
-t.style.display="block";t.style.opacity="1";
-setTimeout(()=>t.style.opacity="0",1500);
-setTimeout(()=>t.style.display="none",1800);}
+  init() {
+    this.bindEvents();
+    this.loadForm();
+    this.setupValidation();
+    this.setupTemplates();
+    this.setupTaskFrequencies();
+    this.renderSavedQuotes();
+    this.showToast('Welcome to A TO Z Cleaning Estimator!', 'info');
+  }
 
-/* Estimator */
-document.getElementById("calcEstimate").addEventListener("click",()=>{
-const hpd=+document.getElementById("hoursPerDay").value||0;
-const dpw=+document.getElementById("daysPerWeek").value||0;
-const rate=+document.getElementById("hourlyRate").value||0;
-const overhead=+document.getElementById("overhead").value||0;
-const salesTax=+document.getElementById("salesTax").value||0;
-const profit=+document.getElementById("profit").value||0;
-const hoursWeek=hpd*dpw,hoursYear=hoursWeek*52,hoursMonth=hoursYear/12;
-const laborCostVal=hoursMonth*rate,payrollTaxVal=laborCostVal*0.10,profitAmt=laborCostVal*(profit/100),overheadAmt=laborCostVal*(overhead/100);
-const totalBeforeTaxVal=laborCostVal+payrollTaxVal+overheadAmt+profitAmt;
-const salesTaxAmt=totalBeforeTaxVal*(salesTax/100),totalAfterTaxVal=totalBeforeTaxVal+salesTaxAmt;
-const fmt=new Intl.NumberFormat('en-CA',{style:'currency',currency:'CAD'});
-document.getElementById("laborCost").textContent=fmt.format(laborCostVal);
-document.getElementById("payrollTax").textContent=fmt.format(payrollTaxVal);
-document.getElementById("profitAmount").textContent=fmt.format(profitAmt);
-document.getElementById("salesTaxAmount").textContent=fmt.format(salesTaxAmt);
-document.getElementById("totalBeforeTax").textContent=fmt.format(totalBeforeTaxVal);
-document.getElementById("totalAfterTax").textContent=fmt.format(totalAfterTaxVal);
-document.getElementById("calcResults").style.display="block";saveData();});
+  // ========== TOAST NOTIFICATIONS ==========
+  showToast(message, type = 'info', duration = 5000) {
+    const toastContainer = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icons = {
+      success: 'fa-check-circle',
+      error: 'fa-exclamation-circle',
+      warning: 'fa-exclamation-triangle',
+      info: 'fa-info-circle'
+    };
+    
+    toast.innerHTML = `
+      <i class="fa ${icons[type]} toast-icon"></i>
+      <span>${message}</span>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    // Animate in
+    setTimeout(() => toast.classList.add('show'), 100);
+    
+    // Auto remove
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+  }
 
-/* Summary */
-function generateSummary(){const f=document.getElementById("walkthroughForm");
-const data=new FormData(f);
-let html=`<h3 style='color:#0056D2;margin-top:0'>A TO Z CLEANING EXPERT LTD. – Assessment Summary</h3>`;
-html+=`<p><strong>Assessor:</strong> ${f.assessorName?.value||"N/A"}<br><strong>Date:</strong> ${new Date().toLocaleDateString()}</p><hr>`;
-data.forEach((v,k)=>{if(v)html+=`<p><strong>${k.replace(/([A-Z])/g," $1").replace(/\b\w/g,l=>l.toUpperCase())}:</strong> ${v}</p>`;});
-document.getElementById("summaryContent").innerHTML=html;}
+  // ========== TEMPLATE SYSTEM ==========
+  setupTemplates() {
+    const templates = {
+      standard: {
+        cleaningType: 'standard',
+        crewSize: 2,
+        productivity: 333,
+        hourlyRate: 17.60,
+        overhead: 15,
+        profit: 30,
+        salesTax: 13
+      },
+      deep: {
+        cleaningType: 'deep',
+        crewSize: 3,
+        productivity: 250,
+        hourlyRate: 19.50,
+        overhead: 18,
+        profit: 35,
+        salesTax: 13
+      },
+      medical: {
+        cleaningType: 'deep',
+        crewSize: 2,
+        productivity: 200,
+        hourlyRate: 21.00,
+        overhead: 20,
+        profit: 40,
+        salesTax: 13
+      },
+      industrial: {
+        cleaningType: 'basic',
+        crewSize: 2,
+        productivity: 500,
+        hourlyRate: 16.50,
+        overhead: 12,
+        profit: 25,
+        salesTax: 13
+      }
+    };
 
-/* PDF Export */
-document.getElementById("downloadPDF").addEventListener("click",()=>{
-generateSummary();
-const element=document.getElementById("summaryContent");
-const today=new Date().toLocaleDateString();
-const opt={margin:0.75,filename:`AtoZ_Walkthrough_Report_${today}.pdf`,
-image:{type:"jpeg",quality:0.98},
-html2canvas:{scale:2,useCORS:true,allowTaint:true,scrollY:0},
-jsPDF:{unit:"in",format:"letter",orientation:"portrait"},
-pagebreak:{mode:["avoid-all","css","legacy"]}};
-html2pdf().set(opt).from(element).toPdf().get("pdf").then(pdf=>{
-const totalPages=pdf.internal.getNumberOfPages();
-const w=pdf.internal.pageSize.getWidth(),h=pdf.internal.pageSize.getHeight();
-for(let i=1;i<=totalPages;i++){
-pdf.setPage(i);
-pdf.setFont("helvetica","bold");pdf.setFontSize(12);pdf.setTextColor(0,86,210);
-pdf.text("A TO Z CLEANING EXPERT LTD.",40,35);
-pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.setTextColor(80);
-pdf.text("Comprehensive Walkthrough & Internal Assessment Report",40,47);
-try{pdf.addImage("https://atozcleaningexpert.github.io/assessment/a-to-z-logo.png","PNG",w-130,15,70,35);}catch(e){console.warn(e);}
-pdf.setFont("helvetica","normal");pdf.setFontSize(9);pdf.setTextColor(100);
-const txt=`© 2025 A TO Z Cleaning Expert Ltd. — Page ${i} of ${totalPages}`;
-pdf.text(txt,w/2,h-20,{align:"center"});}
-pdf.save(`AtoZ_Walkthrough_Report_${today}.pdf`);
-});});
+    document.querySelectorAll('.template-card').forEach(card => {
+      card.addEventListener('click', () => {
+        // Remove active class from all cards
+        document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+        // Add active class to clicked card
+        card.classList.add('active');
+        
+        const templateName = card.dataset.template;
+        const template = templates[templateName];
+        
+        if (template) {
+          for (const key in template) {
+            const field = document.getElementById(key);
+            if (field) {
+              field.value = template[key];
+              // Trigger change event for dependent calculations
+              field.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+          }
+          this.showToast(`${card.querySelector('strong').textContent} template applied`, 'success');
+          
+          // Auto-calculate if square footage exists
+          const sqft = document.getElementById('squareFootage').value;
+          if (sqft) {
+            setTimeout(() => {
+              this.calculateEstimate();
+            }, 500);
+          }
+        }
+      });
+    });
+  }
 
-/* Gmail */
-document.getElementById("emailGmail").addEventListener("click",()=>{
-generateSummary();
-const subject="A TO Z Walkthrough Report";
-const html=document.getElementById("summaryContent").innerHTML.replace(/<hr>/g,"").replace(/<p>/g,"<div style='margin-bottom:6px;'>").replace(/<\/p>/g,"</div>").replace(/<h3/g,"<h3 style='margin-bottom:8px;color:#0056D2'");
-const body=encodeURIComponent(html);
-window.open(`https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(subject)}&body=${body}&tf=1`,"_blank");
+  // ========== TASK FREQUENCY SYSTEM ==========
+  setupTaskFrequencies() {
+    // Initialize all task frequency dropdowns
+    document.querySelectorAll('.task-with-frequency').forEach(taskRow => {
+      const checkbox = taskRow.querySelector('input[type="checkbox"]');
+      const dropdown = taskRow.querySelector('.frequency-dropdown');
+      
+      if (!checkbox || !dropdown) return;
+      
+      // Load saved state
+      const savedState = localStorage.getItem(`freq_${checkbox.name}_${dropdown.dataset.task}`);
+      if (savedState) {
+        dropdown.value = savedState;
+      }
+      
+      // Toggle dropdown visibility based on checkbox
+      if (checkbox.checked) {
+        taskRow.classList.add('checked');
+      }
+      
+      // Add event listeners
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          taskRow.classList.add('checked');
+        } else {
+          taskRow.classList.remove('checked');
+        }
+        this.saveForm();
+      });
+      
+      dropdown.addEventListener('change', () => {
+        localStorage.setItem(`freq_${checkbox.name}_${dropdown.dataset.task}`, dropdown.value);
+        this.saveForm();
+      });
+    });
+    
+    // Initialize add-on frequency dropdowns
+    document.querySelectorAll('.addon-frequency').forEach(dropdown => {
+      const checkbox = dropdown.closest('.task-with-frequency').querySelector('.addon');
+      
+      if (!checkbox) return;
+      
+      // Load saved state
+      const savedState = localStorage.getItem(`freq_addon_${dropdown.dataset.addon}`);
+      if (savedState) {
+        dropdown.value = savedState;
+      }
+      
+      // Toggle dropdown visibility
+      if (checkbox.checked) {
+        dropdown.closest('.task-with-frequency').classList.add('checked');
+      }
+      
+      // Add event listeners
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          dropdown.closest('.task-with-frequency').classList.add('checked');
+        } else {
+          dropdown.closest('.task-with-frequency').classList.remove('checked');
+        }
+        this.updateAddons();
+      });
+      
+      dropdown.addEventListener('change', () => {
+        localStorage.setItem(`freq_addon_${dropdown.dataset.addon}`, dropdown.value);
+        this.updateAddons();
+      });
+    });
+  }
+
+  // ========== VALIDATION SYSTEM ==========
+  setupValidation() {
+    // Real-time validation for key fields
+    const validatedFields = [
+      'assessorName', 'clientName', 'contactPerson', 'email', 'phone',
+      'facilityType', 'squareFootage', 'frequency'
+    ];
+    
+    validatedFields.forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.addEventListener('blur', () => this.validateField(fieldId));
+        field.addEventListener('input', () => this.clearValidation(fieldId));
+      }
+    });
+    
+    // Phone number formatting - FIXED
+    const phoneField = document.getElementById('phone');
+    if (phoneField) {
+      phoneField.addEventListener('input', (e) => this.formatPhoneNumber(e.target));
+    }
+  }
+
+  validateField(fieldId) {
+    const field = document.getElementById(fieldId);
+    const validationEl = document.getElementById(`${fieldId}Validation`);
+    if (!field || !validationEl) return true;
+
+    let isValid = true;
+    let message = '';
+
+    switch (fieldId) {
+      case 'email':
+        isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value);
+        message = isValid ? '' : 'Please enter a valid email address';
+        break;
+      case 'phone':
+        // More flexible phone validation
+        const phoneDigits = field.value.replace(/\D/g, '');
+        isValid = phoneDigits.length >= 10;
+        message = isValid ? '' : 'Please enter a valid phone number (at least 10 digits)';
+        break;
+      case 'squareFootage':
+        isValid = field.value && parseInt(field.value) > 0;
+        message = isValid ? '' : 'Please enter a valid square footage';
+        break;
+      default:
+        isValid = field.value.trim() !== '';
+        message = isValid ? '' : 'This field is required';
+    }
+
+    if (isValid) {
+      field.classList.remove('input-error');
+      field.classList.add('input-success');
+      validationEl.className = 'validation-message validation-success';
+      validationEl.textContent = '✓ Valid';
+    } else {
+      field.classList.remove('input-success');
+      field.classList.add('input-error');
+      validationEl.className = 'validation-message validation-error';
+      validationEl.textContent = message;
+    }
+
+    return isValid;
+  }
+
+  clearValidation(fieldId) {
+    const field = document.getElementById(fieldId);
+    const validationEl = document.getElementById(`${fieldId}Validation`);
+    if (field && validationEl) {
+      field.classList.remove('input-error', 'input-success');
+      validationEl.textContent = '';
+    }
+  }
+
+  // FIXED PHONE NUMBER FORMATTING
+  formatPhoneNumber(input) {
+    let numbers = input.value.replace(/\D/g, '');
+    
+    // Limit to 10 digits for North American numbers
+    if (numbers.length > 10) {
+      numbers = numbers.substring(0, 10);
+    }
+    
+    let formatted = numbers;
+    
+    // Format based on length
+    if (numbers.length === 0) {
+      formatted = '';
+    } else if (numbers.length <= 3) {
+      formatted = `+1 (${numbers}`;
+    } else if (numbers.length <= 6) {
+      formatted = `+1 (${numbers.substring(0, 3)}) ${numbers.substring(3)}`;
+    } else {
+      formatted = `+1 (${numbers.substring(0, 3)}) ${numbers.substring(3, 6)}-${numbers.substring(6)}`;
+    }
+    
+    // Only update if different to avoid cursor issues
+    if (input.value !== formatted) {
+      input.value = formatted;
+    }
+  }
+
+  validateStep(step) {
+    const requiredFields = {
+      1: ['assessorName', 'clientName', 'contactPerson', 'email', 'phone', 'facilityType'],
+      2: ['squareFootage', 'frequency'],
+    };
+
+    const stepFields = requiredFields[step] || [];
+    let isValid = true;
+
+    stepFields.forEach(fieldId => {
+      if (!this.validateField(fieldId)) {
+        isValid = false;
+      }
+    });
+
+    if (!isValid) {
+      this.showToast('Please fix validation errors before continuing', 'error');
+      return false;
+    }
+
+    return true;
+  }
+
+  // ========== NAVIGATION ==========
+  showStep(step) {
+    // Validate current step before proceeding
+    if (step > this.currentStep) {
+      if (!this.validateStep(this.currentStep)) {
+        return; // Don't proceed if validation fails
+      }
+    }
+    
+    document.querySelectorAll("main section").forEach(s => s.classList.remove("active"));
+    const target = document.getElementById("step" + step);
+    if (target) {
+      target.classList.add("active");
+      
+      document.getElementById("progressBar").style.width = (step / this.totalSteps * 100) + "%";
+      document.getElementById("progressText").textContent = `Step ${step} of ${this.totalSteps}`;
+      document.getElementById("progressContainer").setAttribute("aria-valuenow", (step / this.totalSteps * 100));
+      
+      this.currentStep = step;
+      localStorage.setItem("currentStep", step);
+      
+      if (step === 11) this.generateSummary();
+    } else {
+      console.error(`Step ${step} not found!`);
+      this.showToast(`Error: Step ${step} not found`, 'error');
+    }
+  }
+
+  setupNavigation() {
+    for (let i = 1; i <= this.totalSteps; i++) {
+      const nextBtn = document.getElementById("next" + i);
+      const prevBtn = document.getElementById("prev" + i);
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => this.showStep(i + 1));
+      }
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => this.showStep(i - 1));
+      }
+    }
+  }
+
+  // ========== DARK MODE ==========
+  setupDarkMode() {
+    const toggle = document.getElementById("darkToggle");
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        document.body.classList.toggle("dark");
+        const isDark = document.body.classList.contains("dark");
+        localStorage.setItem("darkMode", isDark);
+        toggle.innerHTML = isDark ? '<i class="fa fa-sun"></i>' : '<i class="fa fa-moon"></i>';
+        toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      });
+      
+      // Set initial icon
+      if (localStorage.getItem("darkMode") === "true") {
+        toggle.innerHTML = '<i class="fa fa-sun"></i>';
+      }
+    }
+  }
+
+  // ========== DATA MANAGEMENT ==========
+  saveForm() {
+    const data = {};
+    document.querySelectorAll("input,textarea,select").forEach(el => {
+      if (!el.id) return;
+      if (el.type === "checkbox") data[el.id] = el.checked;
+      else if (el.type !== "file") data[el.id] = el.value;
+    });
+    localStorage.setItem("AtoZData", JSON.stringify(data));
+  }
+
+  loadForm() {
+    const data = JSON.parse(localStorage.getItem("AtoZData") || "{}");
+    for (const k in data) {
+      const el = document.getElementById(k);
+      if (!el) continue;
+      if (el.type === "checkbox") el.checked = data[k];
+      else el.value = data[k];
+    }
+    
+    if (localStorage.getItem("darkMode") === "true") document.body.classList.add("dark");
+    this.showStep(parseInt(localStorage.getItem("currentStep")) || 1);
+  }
+
+  // ========== ENHANCED CALCULATOR ==========
+  setupCalculator() {
+    const calcBtn = document.getElementById('calcTime');
+    if (calcBtn) {
+      calcBtn.addEventListener('click', () => this.calculateEstimate());
+    }
+    
+    // Add-on services
+    document.querySelectorAll('.addon').forEach(addon => {
+      addon.addEventListener('change', () => this.updateAddons());
+    });
+
+    // Sync frequency from step 2
+    const frequencySelect = document.getElementById('frequency');
+    if (frequencySelect) {
+      frequencySelect.addEventListener('change', () => this.syncFrequency());
+    }
+  }
+
+  syncFrequency() {
+    const val = document.getElementById("frequency").value;
+    const map = { 
+      Daily: "0.7", 
+      Weekly: "0.9", 
+      "Bi-Weekly": "0.8", 
+      Monthly: "1", 
+      "One-Time": "1" 
+    };
+    const cleanFreq = document.getElementById("cleanFrequency");
+    if (map[val] && cleanFreq) {
+      cleanFreq.value = map[val];
+    }
+  }
+
+  calculateEstimate() {
+    const calcBtn = document.getElementById('calcTime');
+    const originalText = calcBtn.innerHTML;
+    
+    // Show loading state
+    calcBtn.classList.add('loading');
+    calcBtn.disabled = true;
+    
+    // Simulate calculation time for better UX
+    setTimeout(() => {
+      try {
+        const sqft = parseFloat(document.getElementById("squareFootage").value) || 0;
+        if (!sqft) {
+          this.showToast("Please enter total square footage in Step 2.", "warning");
+          calcBtn.classList.remove('loading');
+          calcBtn.disabled = false;
+          calcBtn.innerHTML = originalText;
+          return;
+        }
+        
+        const type = document.getElementById("cleaningType").value;
+        const crew = +document.getElementById("crewSize").value || 1;
+        const setup = +document.getElementById("setupTime").value || 0.5;
+        const prod = +document.getElementById("productivity").value || 333;
+        const freq = +document.getElementById("cleanFrequency").value || 1;
+        const rateHr = +document.getElementById("hourlyRate").value || 17.6;
+        const oh = +document.getElementById("overhead").value || 0;
+        const pf = +document.getElementById("profit").value || 0;
+        const tax = +document.getElementById("salesTax").value || 0;
+        const addon = this.getAddons();
+
+        let hrs = (sqft / prod) * crew + setup;
+        let rateSq = 0.30, label = "Standard Cleaning";
+        if (type === "basic") { hrs *= 0.7; rateSq = 0.21; label = "Basic Cleaning"; }
+        if (type === "deep") { hrs *= 1.3; rateSq = 0.39; label = "Deep Cleaning"; }
+
+        const labor = hrs * rateHr;
+        const ohAmt = labor * (oh / 100);
+        const profitAmt = (labor + ohAmt) * (pf / 100);
+        let subTotal = labor + ohAmt + profitAmt;
+        subTotal *= freq;
+        const taxAmt = subTotal * (tax / 100);
+        const addOns = sqft * addon;
+        const total = subTotal + taxAmt + addOns;
+
+        const perCleaner = hrs / crew;
+        const margin = (profitAmt / total) * 100;
+        const revHr = total / hrs;
+
+        document.getElementById("timeResults").style.display = "block";
+        document.getElementById("totalCleaningHours").textContent = hrs.toFixed(2);
+        document.getElementById("perCleanerHours").textContent = perCleaner.toFixed(2);
+        document.getElementById("laborCost").textContent = `$${labor.toFixed(2)}`;
+        document.getElementById("overheadCost").textContent = `$${ohAmt.toFixed(2)}`;
+        document.getElementById("profitAmount").textContent = `$${profitAmt.toFixed(2)}`;
+        document.getElementById("totalBeforeTax").textContent = `$${subTotal.toFixed(2)}`;
+        document.getElementById("salesTaxAmount").textContent = `$${taxAmt.toFixed(2)}`;
+        document.getElementById("totalAfterTax").textContent = `$${total.toFixed(2)}`;
+        document.getElementById("ratePerSqFt").style.display = "block";
+        document.getElementById("rateValue").textContent = `$${rateSq.toFixed(2)}`;
+        document.getElementById("rateLabel").textContent = label;
+        document.getElementById("summaryCard").style.display = "block";
+        document.getElementById("profitMarginValue").textContent = `${margin.toFixed(1)}%`;
+        document.getElementById("revenuePerHour").textContent = `$${revHr.toFixed(2)} / hr`;
+        
+        const pm = document.getElementById("profitMarginValue");
+        pm.classList.remove("low-margin", "medium-margin", "high-margin");
+        if (margin < 20) pm.classList.add("low-margin");
+        else if (margin < 30) pm.classList.add("medium-margin");
+        else pm.classList.add("high-margin");
+
+        this.saveForm();
+        this.showToast('Calculation completed successfully!', 'success');
+        
+      } catch (error) {
+        this.showToast('Error in calculation: ' + error.message, 'error');
+        console.error('Calculation error:', error);
+      } finally {
+        // Restore button state
+        calcBtn.classList.remove('loading');
+        calcBtn.disabled = false;
+        calcBtn.innerHTML = originalText;
+      }
+    }, 800);
+  }
+
+  getAddons() {
+    let r = 0, c = 0;
+    document.querySelectorAll(".addon").forEach(a => {
+      if (a.checked) { 
+        r += parseFloat(a.dataset.rate); 
+        c++; 
+      }
+    });
+    const addonCount = document.getElementById("addonCount");
+    const addonRate = document.getElementById("addonRate");
+    const addonsSummary = document.getElementById("addonsSummary");
+    
+    if (addonCount) addonCount.textContent = c;
+    if (addonRate) addonRate.textContent = r.toFixed(2);
+    if (addonsSummary) addonsSummary.style.display = c ? "block" : "none";
+    
+    return r;
+  }
+
+  updateAddons() {
+    this.getAddons();
+    // Auto-calculate if square footage exists
+    const sqft = document.getElementById('squareFootage').value;
+    if (sqft) {
+      this.calculateEstimate();
+    }
+  }
+
+  // ========== BIND ALL EVENTS ==========
+  bindEvents() {
+    this.setupNavigation();
+    this.setupDarkMode();
+    this.setupCalculator();
+    
+    // Auto-save on input changes
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+      if (el.type !== 'file') {
+        el.addEventListener('input', () => this.saveForm());
+        el.addEventListener('change', () => this.saveForm());
+      }
+    });
+    
+    // Quote management
+    const saveQuoteBtn = document.getElementById('saveQuote');
+    const exportDataBtn = document.getElementById('exportData');
+    const importDataBtn = document.getElementById('importData');
+    
+    if (saveQuoteBtn) saveQuoteBtn.addEventListener('click', () => this.saveCurrentQuote());
+    if (exportDataBtn) exportDataBtn.addEventListener('click', () => this.exportData());
+    if (importDataBtn) importDataBtn.addEventListener('click', () => this.importData());
+    
+    // Reset form
+    const resetFormBtn = document.getElementById('resetForm');
+    if (resetFormBtn) {
+      resetFormBtn.addEventListener('click', () => {
+        if (confirm("Are you sure you want to reset the entire walkthrough? All unsaved data will be lost.")) {
+          localStorage.clear();
+          location.reload();
+        }
+      });
+    }
+    
+    // PDF Generation
+    const genQuoteBtn = document.getElementById('genQuote');
+    if (genQuoteBtn) {
+      genQuoteBtn.addEventListener('click', () => this.generatePDF());
+    }
+  }
+
+  // ========== QUOTE MANAGEMENT ==========
+  saveCurrentQuote() {
+    const quoteData = {
+      id: Date.now(),
+      timestamp: new Date().toISOString(),
+      clientName: document.getElementById('clientName')?.value || 'Unnamed Quote',
+      totalCost: document.getElementById('totalAfterTax')?.textContent || '$0.00',
+      data: JSON.parse(localStorage.getItem("AtoZData") || "{}")
+    };
+    
+    this.savedQuotes.push(quoteData);
+    localStorage.setItem('AtoZQuotes', JSON.stringify(this.savedQuotes));
+    this.renderSavedQuotes();
+    this.showToast('Quote saved successfully!', 'success');
+  }
+
+  renderSavedQuotes() {
+    const container = document.getElementById('savedQuotesList');
+    if (!container) return;
+    
+    if (this.savedQuotes.length === 0) {
+      container.innerHTML = '<p style="text-align: center; color: #6B7280;"><em>No saved quotes yet</em></p>';
+      return;
+    }
+    
+    container.innerHTML = this.savedQuotes.map(quote => `
+      <div class="quote-item">
+        <div>
+          <strong>${quote.clientName}</strong><br>
+          <small>${new Date(quote.timestamp).toLocaleDateString()} - ${quote.totalCost}</small>
+        </div>
+        <div class="quote-actions">
+          <button onclick="estimator.loadQuote(${quote.id})" title="Load quote">
+            <i class="fa fa-upload"></i>
+          </button>
+          <button onclick="estimator.deleteQuote(${quote.id})" title="Delete quote" style="color: var(--danger);">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  loadQuote(quoteId) {
+    const quote = this.savedQuotes.find(q => q.id === quoteId);
+    if (quote) {
+      for (const k in quote.data) {
+        const el = document.getElementById(k);
+        if (!el) continue;
+        if (el.type === "checkbox") el.checked = quote.data[k];
+        else el.value = quote.data[k];
+      }
+      this.showToast('Quote loaded successfully!', 'success');
+      this.saveForm();
+    }
+  }
+
+  deleteQuote(quoteId) {
+    if (confirm('Are you sure you want to delete this quote?')) {
+      this.savedQuotes = this.savedQuotes.filter(q => q.id !== quoteId);
+      localStorage.setItem('AtoZQuotes', JSON.stringify(this.savedQuotes));
+      this.renderSavedQuotes();
+      this.showToast('Quote deleted', 'info');
+    }
+  }
+
+  exportData() {
+    const data = {
+      version: '5.3',
+      timestamp: new Date().toISOString(),
+      formData: JSON.parse(localStorage.getItem("AtoZData") || "{}"),
+      quotes: this.savedQuotes
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `atoz-cleaning-data-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    this.showToast('Data exported successfully!', 'success');
+  }
+
+  importData() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const data = JSON.parse(event.target.result);
+          
+          if (data.formData) {
+            for (const k in data.formData) {
+              const el = document.getElementById(k);
+              if (!el) continue;
+              if (el.type === "checkbox") el.checked = data.formData[k];
+              else el.value = data.formData[k];
+            }
+          }
+          
+          if (data.quotes) {
+            this.savedQuotes = data.quotes;
+            localStorage.setItem('AtoZQuotes', JSON.stringify(this.savedQuotes));
+            this.renderSavedQuotes();
+          }
+          
+          this.saveForm();
+          this.showToast('Data imported successfully!', 'success');
+        } catch (error) {
+          this.showToast('Error importing data: Invalid file format', 'error');
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
+
+  generatePDF() {
+    const client = document.getElementById("clientName")?.value || "N/A";
+    const addr = document.getElementById("address")?.value || "";
+    const total = document.getElementById("totalAfterTax")?.textContent || "$0.00";
+    const rate = document.getElementById("rateValue")?.textContent || "$0.00";
+    const label = document.getElementById("rateLabel")?.textContent || "Standard Cleaning";
+
+    const quoteHTML = `
+      <div style='font-family:Poppins,sans-serif;padding:25px;'>
+        <div style='display:flex;justify-content:space-between;align-items:center;'>
+          <img src='https://atozcleaningexpert.github.io/assessment/a-to-z-logo.png' style='height:60px;'>
+          <div style='text-align:right;font-size:0.9rem;color:#6B7280;'>
+            <strong>A TO Z CLEANING EXPERT LTD.</strong><br>
+            www.atozcleaningexpert.ca<br>
+            contact@atozcleaningexpert.com
+          </div>
+        </div>
+        <hr style='margin:12px 0;border:0;border-top:2px solid #004AAD;'>
+        <h2 style='color:#004AAD;'>Cleaning Quote Summary</h2>
+        <p><strong>Client / Company:</strong> ${client}</p>
+        <p><strong>Address:</strong> ${addr}</p>
+        <p><strong>Service Type:</strong> ${label}</p>
+        <p><strong>Rate:</strong> ${rate}</p>
+        <p><strong>Total Estimated Cost (After Tax):</strong> <span style='color:#004AAD;font-size:1.2rem;'>${total}</span></p>
+        <hr>
+        <p style='font-size:0.85rem;color:#6B7280;text-align:center;'>© 2025 A TO Z Cleaning Expert Ltd. All Rights Reserved.</p>
+      </div>`;
+    
+    html2pdf().set({
+      margin: 0.5,
+      filename: `AtoZ_Cleaning_Quote_${client.replace(/\s+/g,"_")}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "in", format: "letter" }
+    }).from(quoteHTML).save();
+    
+    this.showToast('PDF quote generated successfully!', 'success');
+  }
+
+  // ========== COMPLETE SUMMARY WITH FREQUENCY GROUPING ==========
+  generateSummary() {
+    // Basic form data
+    const groups = {
+      "Client Information": ["assessorName","clientName","contactPerson","email","phone","address","facilityType","hours","assessmentDate","startDate"],
+      "Facility Overview": ["squareFootage","floors","frequency","flooringType","accessNotes"],
+      "Facility Composition": ["numRestrooms","numKitchens","ceilingType","entrances","cleaningHours","storageSpace"],
+      "Occupancy & Usage": ["avgOccupancy","peakHours","eventFrequency","specialConsiderations"],
+      "Operations": ["trashHandling","consumables","disinfectionAreas","onSiteEquipment","supplyLocation","specialInstructions"],
+      "Compliance": ["insuranceReq","checkIn","compliance","ecoFriendly","fragranceRestriction","otherComplianceNotes"],
+      "Estimator": ["cleaningType","crewSize","setupTime","productivity","cleanFrequency","hourlyRate","overhead","profit","salesTax"]
+    };
+    
+    let html = "";
+    
+    // Add basic form data
+    for (const g in groups) {
+      html += `<h3 style='color:#004AAD;'>${g}</h3>`;
+      let hasContent = false;
+      
+      groups[g].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.value) {
+          html += `<p><strong>${this.formatFieldName(id)}:</strong> ${el.value}</p>`;
+          hasContent = true;
+        }
+      });
+      
+      if (!hasContent) {
+        html += `<p><em>No information provided</em></p>`;
+      }
+    }
+    
+    // Add inspection notes
+    html += `<h3 style='color:#004AAD;'>Inspection Notes</h3>`;
+    const inspectionNotes = ["frontDeskNotes","officeNotes","classroomNotes","stairwellNotes","bathroomNotes"];
+    let hasInspectionNotes = false;
+    
+    inspectionNotes.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.value) {
+        const areaName = this.formatFieldName(id.replace('Notes', ''));
+        html += `<p><strong>${areaName}:</strong> ${el.value}</p>`;
+        hasInspectionNotes = true;
+      }
+    });
+    
+    if (!hasInspectionNotes) {
+      html += `<p><em>No inspection notes provided</em></p>`;
+    }
+    
+    // Add frequency-grouped tasks (from original script)
+    html += this.generateFrequencyGroupedTasks();
+    
+    const summaryContent = document.getElementById("summaryContent");
+    if (summaryContent) {
+      summaryContent.innerHTML = html;
+      
+      // Add event listeners for expandable sections
+      this.setupSummaryExpandableSections();
+    }
+  }
+
+  formatFieldName(fieldId) {
+    return fieldId
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, str => str.toUpperCase())
+      .replace('Num ', 'Number of ')
+      .replace('Avg ', 'Average ');
+  }
+
+  generateFrequencyGroupedTasks() {
+    const freqOptions = ["Each Visit", "Daily", "Weekly", "Monthly", "Quarterly", "Annually"];
+    const freqGroups = {};
+    
+    // Initialize frequency groups
+    freqOptions.forEach(freq => {
+      freqGroups[freq] = [];
+    });
+    
+    // Collect all checked tasks with their frequencies
+    document.querySelectorAll('.task-with-frequency').forEach(taskRow => {
+      const checkbox = taskRow.querySelector('input[type="checkbox"]');
+      const dropdown = taskRow.querySelector('.frequency-dropdown');
+      
+      if (checkbox && checkbox.checked && dropdown) {
+        const frequency = dropdown.value || "Each Visit";
+        const taskText = checkbox.parentElement.textContent.trim();
+        freqGroups[frequency].push(taskText);
+      }
+    });
+    
+    // Generate HTML for frequency groups
+    let html = `<h3 style='color:#004AAD;margin-top:20px;'>Cleaning Tasks by Frequency</h3>`;
+    
+    freqOptions.forEach((freq, idx) => {
+      const tasks = freqGroups[freq];
+      const icon = this.getFrequencyIcon(freq);
+      const blockId = `freqGroup_${idx}`;
+      const isOpen = localStorage.getItem(`summary_${freq}`) !== 'false';
+      
+      html += `
+        <div class="freq-block ${isOpen ? 'expanded' : ''}" id="${blockId}">
+          <div class="freq-header" data-target="${blockId}" data-freq="${freq}">
+            <span>${icon} ${freq} Tasks (${tasks.length})</span>
+            <span class="toggle-icon">${isOpen ? '−' : '+'}</span>
+          </div>
+          <div class="freq-content" style="${isOpen ? 'max-height: 800px; opacity: 1;' : 'max-height: 0px; opacity: 0;'}">
+            ${tasks.length ? 
+              tasks.map(task => `<p style='margin:4px 0;'>• ${task}</p>`).join('') : 
+              `<p style='margin:4px 0;color:#6B7280;'><em>No tasks assigned.</em></p>`
+            }
+          </div>
+        </div>`;
+    });
+    
+    return html;
+  }
+
+  getFrequencyIcon(freq) {
+    const icons = {
+      "Each Visit": "🧹",
+      "Daily": "📅",
+      "Weekly": "🗓️",
+      "Monthly": "📆",
+      "Quarterly": "🔄",
+      "Annually": "🎯"
+    };
+    return icons[freq] || "✅";
+  }
+
+  setupSummaryExpandableSections() {
+    document.querySelectorAll('.freq-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const target = document.getElementById(header.dataset.target);
+        const freq = header.dataset.freq;
+        const isExpanded = target.classList.contains('expanded');
+        
+        if (isExpanded) {
+          target.classList.remove('expanded');
+          target.querySelector('.freq-content').style.maxHeight = '0px';
+          target.querySelector('.freq-content').style.opacity = '0';
+          header.querySelector('.toggle-icon').textContent = '+';
+          localStorage.setItem(`summary_${freq}`, 'false');
+        } else {
+          target.classList.add('expanded');
+          target.querySelector('.freq-content').style.maxHeight = '800px';
+          target.querySelector('.freq-content').style.opacity = '1';
+          header.querySelector('.toggle-icon').textContent = '−';
+          localStorage.setItem(`summary_${freq}`, 'true');
+        }
+      });
+    });
+  }
+}
+
+// Initialize the application
+let estimator;
+document.addEventListener('DOMContentLoaded', () => {
+  estimator = new CleaningEstimator();
 });
+
+// ========== PHOTO UPLOAD & LIGHTBOX ==========
+const photoStore = {};
+function previewPhotos(input, previewId) {
+  const preview = document.getElementById(previewId);
+  if (!preview) return;
+  
+  preview.innerHTML = "";
+  photoStore[previewId] = [];
+  Array.from(input.files).slice(0, 5).forEach(file => {
+    const r = new FileReader();
+    r.onload = e => {
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      preview.appendChild(img);
+      photoStore[previewId].push(e.target.result);
+      if (estimator) estimator.saveForm();
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+// Initialize photo uploads
+["frontDesk", "office", "classroom", "stairwell", "bathroom"].forEach(area => {
+  const input = document.getElementById(area + "Photos");
+  if (input) input.onchange = () => previewPhotos(input, area + "Preview");
+});
+
+// Lightbox functionality
+let lbIdx = 0, lbList = [];
+const lb = document.getElementById("photoLightbox");
+const lbImg = document.getElementById("lightboxImg");
+const lbCap = document.getElementById("lightboxCaption");
+
+if (lb && lbImg && lbCap) {
+  document.querySelectorAll(".photo-grid").forEach(grid => {
+    grid.addEventListener("click", e => {
+      if (e.target.tagName === "IMG") {
+        lbList = Array.from(grid.querySelectorAll("img")).map(x => x.src);
+        lbIdx = lbList.indexOf(e.target.src);
+        lbImg.src = e.target.src;
+        lbCap.textContent = `${grid.id.replace("Preview", "")} Photo ${lbIdx + 1} of ${lbList.length}`;
+        lb.classList.add("active");
+      }
+    });
+  });
+
+  lb.addEventListener('click', e => { 
+    if (e.target.id === "photoLightbox") lb.classList.remove("active"); 
+  });
+  
+  const lightboxPrev = document.getElementById("lightboxPrev");
+  const lightboxNext = document.getElementById("lightboxNext");
+  
+  if (lightboxPrev) {
+    lightboxPrev.addEventListener('click', () => { 
+      lbIdx = (lbIdx - 1 + lbList.length) % lbList.length; 
+      lbImg.src = lbList[lbIdx]; 
+      lbCap.textContent = `Photo ${lbIdx + 1} of ${lbList.length}`;
+    });
+  }
+  
+  if (lightboxNext) {
+    lightboxNext.addEventListener('click', () => { 
+      lbIdx = (lbIdx + 1) % lbList.length; 
+      lbImg.src = lbList[lbIdx];
+      lbCap.textContent = `Photo ${lbIdx + 1} of ${lbList.length}`;
+    });
+  }
+}
 </script>
 </body>
 </html>
-
-
-
-
-
